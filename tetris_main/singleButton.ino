@@ -1,3 +1,4 @@
+/*
 const int button1 = 2;
 
 
@@ -24,3 +25,4 @@ void loop() {
 
   prevState1 = state1;
 }
+*/

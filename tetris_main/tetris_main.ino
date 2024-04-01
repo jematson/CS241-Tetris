@@ -3,6 +3,7 @@
 
 const int left_button = 8;
 const int right_button = 9;
+const int down_button = 10;
 
 // This gives names to each bit from the 16-bit pattern
 typedef enum {
@@ -94,15 +95,110 @@ void begin_shift_reg()
   pinMode(outputPin,OUTPUT);  
 }
 
+unsigned int moveRight(unsigned int curr_pattern) {
+  // save the high bits, the rows
+  unsigned int newPattern = curr_pattern & 0xFF00;
+  // copy the low bits, the cols
+  unsigned int oldCols = curr_pattern & 0x00FF;
+  // left shift the cols by 1
+  oldCols = oldCols << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100010000
+
+  // recombine the old rows with the old cols
+  newPattern = newPattern | oldCols;
+  return newPattern;
+}
+unsigned int moveLeft(unsigned int curr_pattern) {
+  // save the high bits, the rows
+  unsigned int newPattern = curr_pattern & 0xFF00;
+  // copy the low bits, the cols
+  unsigned int oldCols = curr_pattern & 0x00FF;
+  // right shift the cols by 1
+  oldCols = oldCols >> 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100000100
+
+  // recombine the old rows with the new cols
+  newPattern = newPattern | oldCols;
+  return newPattern;
+}
+unsigned int moveDown(unsigned int curr_pattern) {
+  // save the low bits, the cols
+  unsigned int newPattern = curr_pattern & 0x00FF;
+  // copy the high bits, the rows
+  unsigned int oldRows = curr_pattern & 0xFF00;
+  // left shift the rows by 1 to move down
+  oldRows = oldRows << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000100000001000
+  // to  0b0001000000001000
+
+  // recombine the new rows with the old cols
+  newPattern = oldRows | newPattern;
+  return newPattern;
+}
+
 unsigned int bitrimino = 0b0000000100001000;
+
+// Initialize button states
+bool left_state = false;
+bool prev_left = left_state;
+bool right_state = false;
+bool prev_right = right_state;
+bool down_state = false;
+bool prev_down = down_state;
+
+
+void checkLeftButton() {
+  left_state = !digitalRead(left_button);
+
+  if(left_state && left_state != prev_left) {
+    bitrimino = moveLeft(bitrimino);
+    left_state = true;
+  }
+  prev_left = left_state;
+  delay(1);
+}
+
+void checkRightButton() {
+  right_state = !digitalRead(right_button);
+
+  if(right_state && right_state != prev_right) {
+    bitrimino = moveRight(bitrimino);
+    right_state = true;
+  }
+  prev_right = right_state;
+  delay(1);
+}
+
+void checkDownButton() {
+  down_state = !digitalRead(down_button);
+
+  if(down_state && down_state != prev_down) {
+    bitrimino = moveDown(bitrimino);
+    down_state = true;
+  }
+  prev_down = down_state;
+  delay(1);
+}
 
 void setup() {
   begin_shift_reg();
   begin_arduino_pins();
+  pinMode(left_button, INPUT_PULLUP);
+  pinMode(right_button, INPUT_PULLUP);
+  pinMode(down_button, INPUT_PULLUP);
 }
 
 void loop() {
-  // Send first block at top of screen
-  send_pattern(bitrimino, 100);
-  
+  checkLeftButton();
+  checkRightButton();
+  checkDownButton();
+  send_pattern(bitrimino, 1);
 }
