@@ -51,15 +51,24 @@ unsigned int board[8] {
   0b1000000000000000
 };
 
+// Return high bits (rows) from a bit pattern
+unsigned int get_high_bits(unsigned int pattern) {
+  return pattern & 0xFF00;
+}
+// Return low bits (cols) from a bit pattern
+unsigned int get_low_bits(unsigned int pattern) {
+  return pattern & 0x00FF;
+}
+
 // Movement functions
 // Take pattern and shift bits as needed to move item
 unsigned int moveRight(unsigned int curr_pattern) {
   // remove the bitrimino from the board
   remove_from_board(board, curr_pattern);
   // save the high bits, the rows
-  unsigned int newPattern = curr_pattern & 0xFF00;
+  unsigned int newPattern = get_high_bits(curr_pattern);
   // copy the low bits, the cols
-  unsigned int oldCols = curr_pattern & 0x00FF;
+  unsigned int oldCols = get_low_bits(curr_pattern);
   // left shift the cols by 1
   oldCols = oldCols << 1;
   //       | rows  | cols  |
@@ -77,9 +86,9 @@ unsigned int moveLeft(unsigned int curr_pattern) {
   // remove the bitrimino from the board
   remove_from_board(board, curr_pattern);
   // save the high bits, the rows
-  unsigned int newPattern = curr_pattern & 0xFF00;
+  unsigned int newPattern = get_high_bits(curr_pattern);
   // copy the low bits, the cols
-  unsigned int oldCols = curr_pattern & 0x00FF;
+  unsigned int oldCols = get_low_bits(curr_pattern);
   // right shift the cols by 1
   oldCols = oldCols >> 1;
   //       | rows  | cols  |
@@ -97,9 +106,9 @@ unsigned int moveDown(unsigned int curr_pattern) {
   // remove the bitrimino from the board
   remove_from_board(board, curr_pattern);
   // save the low bits, the cols
-  unsigned int newPattern = curr_pattern & 0x00FF;
+  unsigned int newPattern = get_low_bits(curr_pattern);
   // copy the high bits, the rows
-  unsigned int oldRows = curr_pattern & 0xFF00;
+  unsigned int oldRows = get_high_bits(curr_pattern);
   // left shift the rows by 1 to move down
   oldRows = oldRows << 1;
   //       | rows  | cols  |
@@ -169,23 +178,23 @@ void display_board(unsigned int board[8]) {
 }
 
 void add_to_board(unsigned int board[8], unsigned int bitrimino) {
-  unsigned int high_bits = bitrimino & 0xFF00;
+  unsigned int bitr_high_bits = get_high_bits(bitrimino);
   // loop through rows of board
   for(int i = 0; i < 8; i++) {
-    if((high_bits & board[i]) != 0) {
+    if((bitr_high_bits & board[i]) != 0) {
       board[i] = board[i] | bitrimino;
     }
   }
 }
 
 void remove_from_board(unsigned int board[8], unsigned int bitrimino) {
-  unsigned int bitr_high_bits = bitrimino & 0xFF00;
+  unsigned int bitr_high_bits = get_high_bits(bitrimino);
   // loop through rows of board
   for(int i = 0; i < 8; i++) {
     if((bitr_high_bits & board[i]) != 0) {
-      unsigned int board_high_bits = board[i] & 0xFF00;
-      unsigned int board_low_bits = board[i] & 0x00FF;
-      unsigned int bitr_low_bits = bitrimino & 0x00FF;
+      unsigned int board_high_bits = get_high_bits(board[i]);
+      unsigned int board_low_bits = get_low_bits(board[i]);
+      unsigned int bitr_low_bits = get_low_bits(bitrimino);
       board[i] = board_high_bits | ((~bitr_low_bits) & board_low_bits);
     }
   }
