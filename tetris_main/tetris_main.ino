@@ -3,6 +3,7 @@
 
 #include"display_pattern.h"
 #include"buttons.h"
+#include"bitrimino.h"
 
 // Declare Pin constants (in header for now)
 //const int dataPin = 11;
@@ -14,14 +15,25 @@ const int right_button = 9;
 const int up_button = 8;
 const int down_button = 7;
 
+// Horizontal Bitrimino
+Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
+// Vertical Bitrimino
+Bitrimino bitrimino_v = { .pattern = {0b0000001100001000} };
+// Forward Diagonal Bitrimino
+Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
+// Back Diagonal Bitrimino
+Bitrimino bitrimono_b = { .pattern = {0b0000000100001000, 0b0000001000001000} };
+
+/*
 // Define starting bitriminos
 typedef enum {
-  bitrimino_h = 0b0000000100011000,
-  bitrimino_v = 0b0000001100001000
+  bitrimino_h.pattern[1] = 0b0000000100011000,
+  bitrimino_v.pattern[1] = 0b0000001100001000
 } bitriminoes;
+*/
 
-//unsigned int bitrimino = 0b0000000100001000;
-unsigned int curr_bitrimino = bitrimino_h;
+
+Bitrimino curr_bitrimino = bitrimino_h;
 
 /*
     8x8 coordinate system
@@ -51,78 +63,6 @@ unsigned int board[8] {
   0b1000000000000000
 };
 
-// Return high bits (rows) from a bit pattern
-unsigned int get_high_bits(unsigned int pattern) {
-  return pattern & 0xFF00;
-}
-// Return low bits (cols) from a bit pattern
-unsigned int get_low_bits(unsigned int pattern) {
-  return pattern & 0x00FF;
-}
-
-// Movement functions
-// Take pattern and shift bits as needed to move item
-unsigned int moveRight(unsigned int curr_pattern) {
-  // remove the bitrimino from the board
-  remove_from_board(board, curr_pattern);
-  // save the high bits, the rows
-  unsigned int newPattern = get_high_bits(curr_pattern);
-  // copy the low bits, the cols
-  unsigned int oldCols = get_low_bits(curr_pattern);
-  // left shift the cols by 1
-  oldCols = oldCols << 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000000100001000
-  // to  0b0000000100010000
-
-  // recombine the old rows with the old cols
-  newPattern = newPattern | oldCols;
-  // add bitrimino to board in new position
-  add_to_board(board, newPattern);
-  return newPattern;
-}
-unsigned int moveLeft(unsigned int curr_pattern) {
-  // remove the bitrimino from the board
-  remove_from_board(board, curr_pattern);
-  // save the high bits, the rows
-  unsigned int newPattern = get_high_bits(curr_pattern);
-  // copy the low bits, the cols
-  unsigned int oldCols = get_low_bits(curr_pattern);
-  // right shift the cols by 1
-  oldCols = oldCols >> 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000000100001000
-  // to  0b0000000100000100
-
-  // recombine the old rows with the new cols
-  newPattern = newPattern | oldCols;
-  // add bitrimino to board in new position
-  add_to_board(board, newPattern);
-  return newPattern;
-}
-unsigned int moveDown(unsigned int curr_pattern) {
-  // remove the bitrimino from the board
-  remove_from_board(board, curr_pattern);
-  // save the low bits, the cols
-  unsigned int newPattern = get_low_bits(curr_pattern);
-  // copy the high bits, the rows
-  unsigned int oldRows = get_high_bits(curr_pattern);
-  // left shift the rows by 1 to move down
-  oldRows = oldRows << 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000100000001000
-  // to  0b0001000000001000
-
-  // recombine the new rows with the old cols
-  newPattern = oldRows | newPattern;
-  // add bitrimino to board in new position
-  add_to_board(board, newPattern);
-  return newPattern;
-}
-
 // Initialize button states
 bool left_state = false;
 bool prev_left = left_state;
@@ -136,7 +76,7 @@ void checkLeftButton() {
   left_state = !digitalRead(left_button);
 
   if(left_state && left_state != prev_left && x_pos > 1) {
-    curr_bitrimino = moveLeft(curr_bitrimino);
+    curr_bitrimino = move_bitr_left(board, curr_bitrimino);
     x_pos--;
     left_state = true;
   }
@@ -147,7 +87,7 @@ void checkRightButton() {
   right_state = !digitalRead(right_button);
 
   if(right_state && right_state != prev_right && x_pos < 8) {
-    curr_bitrimino = moveRight(curr_bitrimino);
+    curr_bitrimino = move_bitr_right(board, curr_bitrimino);
     x_pos++;
     right_state = true;
   }
@@ -158,7 +98,7 @@ void checkDownButton() {
   down_state = !digitalRead(down_button);
 
   if(down_state && down_state != prev_down && y_pos < 8) {
-    curr_bitrimino = moveDown(curr_bitrimino);
+    curr_bitrimino = move_bitr_down(board, curr_bitrimino);
     y_pos++;
     down_state = true;
   }
@@ -177,28 +117,6 @@ void display_board(unsigned int board[8]) {
   send_pattern(board[7], 1);
 }
 
-void add_to_board(unsigned int board[8], unsigned int bitrimino) {
-  unsigned int bitr_high_bits = get_high_bits(bitrimino);
-  // loop through rows of board
-  for(int i = 0; i < 8; i++) {
-    if((bitr_high_bits & board[i]) != 0) {
-      board[i] = board[i] | bitrimino;
-    }
-  }
-}
-
-void remove_from_board(unsigned int board[8], unsigned int bitrimino) {
-  unsigned int bitr_high_bits = get_high_bits(bitrimino);
-  // loop through rows of board
-  for(int i = 0; i < 8; i++) {
-    if((bitr_high_bits & board[i]) != 0) {
-      unsigned int board_high_bits = get_high_bits(board[i]);
-      unsigned int board_low_bits = get_low_bits(board[i]);
-      unsigned int bitr_low_bits = get_low_bits(bitrimino);
-      board[i] = board_high_bits | ((~bitr_low_bits) & board_low_bits);
-    }
-  }
-}
 
 void setup() {
   Serial.begin(57600);
