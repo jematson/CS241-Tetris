@@ -1,9 +1,15 @@
 // CS 241 Final Project: Tetris Game
 // Jenae Matson and Elliott Lewandowski
 
-const int left_button = 8;
+// Declare Pin constants
+const int dataPin = 11;
+const int shiftPin = 12;
+const int outputPin = 13;
+
+const int left_button = 10;
 const int right_button = 9;
-const int down_button = 10;
+const int up_button = 8;
+const int down_button = 7;
 
 // This gives names to each bit from the 16-bit pattern
 typedef enum {
@@ -11,20 +17,18 @@ typedef enum {
  r0 = 8, r1, r2, r3, r4, r5, r6, r7  // rows are high 8 bits
 } rc_t;
 
-/* Show this pattern on the 8x8 LED matrix.  
-  "Nice" pattern bits should be 1
-  for that row or column to be active,
-  and 0 for inactive.
-*/
-void send_pattern(unsigned int nice_pattern, int delay)
+// Define starting bitriminos
+typedef enum {
+  bitrimino_h = 0b0000000100011000,
+  bitrimino_v = 0b0000001100001000
+} bitriminoes;
+
+// Set up the shift register pins (call from setup)
+void begin_shift_reg()
 {
-  unsigned int raw_pattern = 0b1111111100000000 ^ nice_pattern; // rows are 0 to be lit
-  send_to_arduino_pins(raw_pattern); // top pins
-  send_to_shift_reg(raw_pattern); // bottom pins
-  delayMicroseconds(delay);
-  unsigned int zero_pattern = 0b1111111100000000;
-  send_to_arduino_pins(zero_pattern);
-  send_to_shift_reg(zero_pattern);
+  pinMode(dataPin,OUTPUT);
+  pinMode(shiftPin,OUTPUT);
+  pinMode(outputPin,OUTPUT);  
 }
 
 /*
@@ -39,33 +43,26 @@ bool pattern_has_bit(unsigned int raw_pattern, rc_t bit)
   return raw_pattern & (1<<bit); // pull out this bit of the pattern
 }
 
-// Send this raw pattern to the Arduino's pins 0 through 7
-void send_to_arduino_pins(unsigned int raw_pattern)
+// Send another bit to the shift register
+void send_bit_to_shift_reg(int bit)
 {
-  digitalWrite(0, pattern_has_bit(raw_pattern, c7));
-  digitalWrite(1, pattern_has_bit(raw_pattern, c6));
-  digitalWrite(2, pattern_has_bit(raw_pattern, r1));
-  digitalWrite(3, pattern_has_bit(raw_pattern, c0));
-  digitalWrite(4, pattern_has_bit(raw_pattern, r3));
-  digitalWrite(5, pattern_has_bit(raw_pattern, c5));
-  digitalWrite(6, pattern_has_bit(raw_pattern, c3));
-  digitalWrite(7, pattern_has_bit(raw_pattern, r0));
-  // or one big PORTD call?
+  digitalWrite(dataPin,bit);
+  digitalWrite(shiftPin,0);
+  digitalWrite(shiftPin,1);
 }
-
-// Set up the Arduino's pins (call from setup once)
-void begin_arduino_pins()
-{
-  for (int pin=0;pin<=7;pin++) pinMode(pin,OUTPUT);
-}
-
-int dataPin = 11;
-int shiftPin = 12;
-int outputPin = 13;
 
 // 595 expects 8 bits: the 8 bottom pins of the 8x8 LED matrix
 void send_to_shift_reg(unsigned int raw_pattern)
 {
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r0));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c3));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c5));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r3));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c0));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r1));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c6));
+  send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c7));
+
   send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r4));
   send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r6));
   send_bit_to_shift_reg(pattern_has_bit(raw_pattern, c1));
@@ -79,22 +76,22 @@ void send_to_shift_reg(unsigned int raw_pattern)
   digitalWrite(outputPin,1);
 }
 
-// Send another bit to the shift register
-void send_bit_to_shift_reg(int bit)
+/* Show this pattern on the 8x8 LED matrix.  
+  "Nice" pattern bits should be 1
+  for that row or column to be active,
+  and 0 for inactive.
+*/
+void send_pattern(unsigned int nice_pattern, int delay)
 {
-  digitalWrite(dataPin,bit);
-  digitalWrite(shiftPin,0);
-  digitalWrite(shiftPin,1);
+  unsigned int raw_pattern = 0b1111111100000000 ^ nice_pattern; // rows are 0 to be lit
+  send_to_shift_reg(raw_pattern); // bottom pins
+  delayMicroseconds(delay);
+  unsigned int zero_pattern = 0b1111111100000000;
+  send_to_shift_reg(zero_pattern);
 }
 
-// Set up the shift register pins (call from setup)
-void begin_shift_reg()
-{
-  pinMode(dataPin,OUTPUT);
-  pinMode(shiftPin,OUTPUT);
-  pinMode(outputPin,OUTPUT);  
-}
-
+// Movement functions
+// Take pattern and shift bits as needed to move item
 unsigned int moveRight(unsigned int curr_pattern) {
   // save the high bits, the rows
   unsigned int newPattern = curr_pattern & 0xFF00;
@@ -144,7 +141,24 @@ unsigned int moveDown(unsigned int curr_pattern) {
   return newPattern;
 }
 
-unsigned int bitrimino = 0b0000000100001000;
+//unsigned int bitrimino = 0b0000000100001000;
+unsigned int curr_bitrimino = bitrimino_v;
+
+/*
+    8x8 coordinate system
+      12345678
+      ________
+    1|00000000
+    2|00000000
+    3|00000000
+    4|00000000
+    5|00000000
+    6|00000000
+    7|00000000
+    8|00000000
+*/
+int x_pos = 4; //Starting 
+int y_pos = 1;
 
 // Initialize button states
 bool left_state = false;
@@ -154,34 +168,35 @@ bool prev_right = right_state;
 bool down_state = false;
 bool prev_down = down_state;
 
-
+// Check button states and do stuff if pressed
 void checkLeftButton() {
   left_state = !digitalRead(left_button);
 
-  if(left_state && left_state != prev_left) {
-    bitrimino = moveLeft(bitrimino);
+  if(left_state && left_state != prev_left && x_pos > 1) {
+    curr_bitrimino = moveLeft(curr_bitrimino);
+    x_pos--;
     left_state = true;
   }
   prev_left = left_state;
   delay(1);
 }
-
 void checkRightButton() {
   right_state = !digitalRead(right_button);
 
-  if(right_state && right_state != prev_right) {
-    bitrimino = moveRight(bitrimino);
+  if(right_state && right_state != prev_right && x_pos < 8) {
+    curr_bitrimino = moveRight(curr_bitrimino);
+    x_pos++;
     right_state = true;
   }
   prev_right = right_state;
   delay(1);
 }
-
 void checkDownButton() {
   down_state = !digitalRead(down_button);
 
-  if(down_state && down_state != prev_down) {
-    bitrimino = moveDown(bitrimino);
+  if(down_state && down_state != prev_down && y_pos < 8) {
+    curr_bitrimino = moveDown(curr_bitrimino);
+    y_pos++;
     down_state = true;
   }
   prev_down = down_state;
@@ -189,8 +204,9 @@ void checkDownButton() {
 }
 
 void setup() {
+  Serial.begin(57600);
+  Serial.println("started up");
   begin_shift_reg();
-  begin_arduino_pins();
   pinMode(left_button, INPUT_PULLUP);
   pinMode(right_button, INPUT_PULLUP);
   pinMode(down_button, INPUT_PULLUP);
@@ -200,5 +216,5 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
-  send_pattern(bitrimino, 1);
+  send_pattern(curr_bitrimino, 1);
 }
