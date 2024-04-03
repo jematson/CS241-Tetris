@@ -121,3 +121,27 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino curr_bitrimino) {
   return curr_bitrimino;
 }
 
+// Edge checking for current bitrimino
+// false = no problem
+// true = hitting edge
+bool check_right_edge(Bitrimino curr_bitrimino) {
+  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+  
+  }
+  return false;
+}
+bool check_left_edge(Bitrimino curr_bitrimino) {
+  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+
+  }
+  return false;
+}
+bool check_bottom_edge(Bitrimino curr_bitrimino) {
+  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+
+  }
+  return false;
+}
