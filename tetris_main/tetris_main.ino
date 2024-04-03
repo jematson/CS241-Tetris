@@ -2,8 +2,9 @@
 // Jenae Matson and Elliott Lewandowski
 
 #include"display_pattern.h"
+#include"buttons.h"
 
-// Declare Pin constants
+// Declare Pin constants (in header for now)
 //const int dataPin = 11;
 //const int shiftPin = 12;
 //const int outputPin = 13;
@@ -18,75 +19,6 @@ typedef enum {
   bitrimino_h = 0b0000000100011000,
   bitrimino_v = 0b0000001100001000
 } bitriminoes;
-
-// Start with an empty board
-unsigned int board[8] {
-  0b0000000100000000,
-  0b0000001000000000,
-  0b0000010000000000,
-  0b0000100000000000,
-  0b0001000000000000,
-  0b0010000000000000,
-  0b0100000000000000,
-  0b1000000000000000
-};
-
-// Movement functions
-// Take pattern and shift bits as needed to move item
-unsigned int moveRight(unsigned int curr_pattern) {
-  remove_from_board(board, curr_pattern);
-  // save the high bits, the rows
-  unsigned int newPattern = curr_pattern & 0xFF00;
-  // copy the low bits, the cols
-  unsigned int oldCols = curr_pattern & 0x00FF;
-  // left shift the cols by 1
-  oldCols = oldCols << 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000000100001000
-  // to  0b0000000100010000
-
-  // recombine the old rows with the old cols
-  newPattern = newPattern | oldCols;
-  add_to_board(board, newPattern);
-  return newPattern;
-}
-unsigned int moveLeft(unsigned int curr_pattern) {
-  remove_from_board(board, curr_pattern);
-  // save the high bits, the rows
-  unsigned int newPattern = curr_pattern & 0xFF00;
-  // copy the low bits, the cols
-  unsigned int oldCols = curr_pattern & 0x00FF;
-  // right shift the cols by 1
-  oldCols = oldCols >> 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000000100001000
-  // to  0b0000000100000100
-
-  // recombine the old rows with the new cols
-  newPattern = newPattern | oldCols;
-  add_to_board(board, newPattern);
-  return newPattern;
-}
-unsigned int moveDown(unsigned int curr_pattern) {
-  remove_from_board(board, curr_pattern);
-  // save the low bits, the cols
-  unsigned int newPattern = curr_pattern & 0x00FF;
-  // copy the high bits, the rows
-  unsigned int oldRows = curr_pattern & 0xFF00;
-  // left shift the rows by 1 to move down
-  oldRows = oldRows << 1;
-  //       | rows  | cols  |
-  // ex. 0b7654321076543210
-  //     0b0000100000001000
-  // to  0b0001000000001000
-
-  // recombine the new rows with the old cols
-  newPattern = oldRows | newPattern;
-  add_to_board(board, newPattern);
-  return newPattern;
-}
 
 //unsigned int bitrimino = 0b0000000100001000;
 unsigned int curr_bitrimino = bitrimino_h;
@@ -106,6 +38,81 @@ unsigned int curr_bitrimino = bitrimino_h;
 */
 int x_pos = 4; //Starting 
 int y_pos = 1;
+
+// Start with an empty board
+unsigned int board[8] {
+  0b0000000100000000,
+  0b0000001000000000,
+  0b0000010000000000,
+  0b0000100000000000,
+  0b0001000000000000,
+  0b0010000000000000,
+  0b0100000000000000,
+  0b1000000000000000
+};
+
+// Movement functions
+// Take pattern and shift bits as needed to move item
+unsigned int moveRight(unsigned int curr_pattern) {
+  // remove the bitrimino from the board
+  remove_from_board(board, curr_pattern);
+  // save the high bits, the rows
+  unsigned int newPattern = curr_pattern & 0xFF00;
+  // copy the low bits, the cols
+  unsigned int oldCols = curr_pattern & 0x00FF;
+  // left shift the cols by 1
+  oldCols = oldCols << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100010000
+
+  // recombine the old rows with the old cols
+  newPattern = newPattern | oldCols;
+  // add bitrimino to board in new position
+  add_to_board(board, newPattern);
+  return newPattern;
+}
+unsigned int moveLeft(unsigned int curr_pattern) {
+  // remove the bitrimino from the board
+  remove_from_board(board, curr_pattern);
+  // save the high bits, the rows
+  unsigned int newPattern = curr_pattern & 0xFF00;
+  // copy the low bits, the cols
+  unsigned int oldCols = curr_pattern & 0x00FF;
+  // right shift the cols by 1
+  oldCols = oldCols >> 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100000100
+
+  // recombine the old rows with the new cols
+  newPattern = newPattern | oldCols;
+  // add bitrimino to board in new position
+  add_to_board(board, newPattern);
+  return newPattern;
+}
+unsigned int moveDown(unsigned int curr_pattern) {
+  // remove the bitrimino from the board
+  remove_from_board(board, curr_pattern);
+  // save the low bits, the cols
+  unsigned int newPattern = curr_pattern & 0x00FF;
+  // copy the high bits, the rows
+  unsigned int oldRows = curr_pattern & 0xFF00;
+  // left shift the rows by 1 to move down
+  oldRows = oldRows << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000100000001000
+  // to  0b0001000000001000
+
+  // recombine the new rows with the old cols
+  newPattern = oldRows | newPattern;
+  // add bitrimino to board in new position
+  add_to_board(board, newPattern);
+  return newPattern;
+}
 
 // Initialize button states
 bool left_state = false;
@@ -163,6 +170,7 @@ void display_board(unsigned int board[8]) {
 
 void add_to_board(unsigned int board[8], unsigned int bitrimino) {
   unsigned int high_bits = bitrimino & 0xFF00;
+  // loop through rows of board
   for(int i = 0; i < 8; i++) {
     if((high_bits & board[i]) != 0) {
       board[i] = board[i] | bitrimino;
@@ -172,7 +180,7 @@ void add_to_board(unsigned int board[8], unsigned int bitrimino) {
 
 void remove_from_board(unsigned int board[8], unsigned int bitrimino) {
   unsigned int bitr_high_bits = bitrimino & 0xFF00;
-  
+  // loop through rows of board
   for(int i = 0; i < 8; i++) {
     if((bitr_high_bits & board[i]) != 0) {
       unsigned int board_high_bits = board[i] & 0xFF00;
