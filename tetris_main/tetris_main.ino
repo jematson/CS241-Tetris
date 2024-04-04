@@ -22,7 +22,7 @@ Bitrimino bitrimino_v = { .pattern = {0b0000001100001000} };
 // Forward Diagonal Bitrimino
 Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
 // Back Diagonal Bitrimino
-Bitrimino bitrimono_b = { .pattern = {0b0000000100001000, 0b0000001000001000} };
+Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
 
 /*
 // Define starting bitriminos
@@ -33,7 +33,7 @@ typedef enum {
 */
 
 
-Bitrimino curr_bitrimino = bitrimino_h;
+Bitrimino curr_bitrimino = bitrimino_f;
 
 /*
     8x8 coordinate system
