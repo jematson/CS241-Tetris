@@ -10,7 +10,7 @@
 // Horizontal Bitrimino
 Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
 // Vertical Bitrimino
-Bitrimino bitrimino_v = { .pattern = {0b0000001100001000} };
+Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
 // Forward Diagonal Bitrimino
 Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
 // Back Diagonal Bitrimino
