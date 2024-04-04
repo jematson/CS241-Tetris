@@ -96,6 +96,7 @@ void setup() {
   pinMode(down_button, INPUT_PULLUP);
 
   curr_bitrimino = create_bitrimino();
+  add_to_board(board, curr_bitrimino);
 }
 
 void loop() {

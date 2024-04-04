@@ -29,6 +29,7 @@ Bitrimino create_bitrimino() {
   }
 }
 
+
 // Return high bits (rows) from a bit pattern
 unsigned int get_high_bits(unsigned int pattern) {
   return pattern & 0xFF00;
@@ -46,6 +47,13 @@ void add_to_board(unsigned int board[8], unsigned int bitrimino) {
     if((bitr_high_bits & board[i]) != 0) {
       board[i] = board[i] | bitrimino;
     }
+  }
+}
+
+void add_to_board(unsigned int board[8], Bitrimino bitrimino) {
+  int num_patterns = sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+    add_to_board(board, bitrimino.pattern[i]);
   }
 }
 
