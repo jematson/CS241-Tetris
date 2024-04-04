@@ -12,9 +12,9 @@ Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
 // Vertical Bitrimino
 Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
 // Forward Diagonal Bitrimino
-Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
+Bitrimino bitrimino_f = { .pattern = {0b0000001000001000, 0b0000000100010000} };
 // Back Diagonal Bitrimino
-Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
+Bitrimino bitrimino_b = { .pattern = {0b0000001000010000, 0b0000000100001000} };
 
 Bitrimino create_bitrimino() {
   switch(random(1, 5)) {
@@ -173,30 +173,27 @@ Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block down
 Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  if(!check_bottom_edge(curr_bitrimino)) // If not on the edge of the board move
-  {
-    int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
-    for (int i=0; i<num_patterns; i++) {
-      // remove the bitrimino from the board
-      remove_from_board(board, curr_bitrimino.pattern[i]);
-      // save the low bits, the cols
-      unsigned int newPattern = get_low_bits(curr_bitrimino.pattern[i]);
-      // copy the high bits, the rows
-      unsigned int oldRows = get_high_bits(curr_bitrimino.pattern[i]);
-      // left shift the rows by 1 to move down
-      oldRows = oldRows << 1;
-      //       | rows  | cols  |
-      // ex. 0b7654321076543210
-      //     0b0000100000001000
-      // to  0b0001000000001000
+  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+    // remove the bitrimino from the board
+    remove_from_board(board, curr_bitrimino.pattern[i]);
+    // save the low bits, the cols
+    unsigned int newPattern = get_low_bits(curr_bitrimino.pattern[i]);
+    // copy the high bits, the rows
+    unsigned int oldRows = get_high_bits(curr_bitrimino.pattern[i]);
+    // left shift the rows by 1 to move down
+    oldRows = oldRows << 1;
+    //       | rows  | cols  |
+    // ex. 0b7654321076543210
+    //     0b0000100000001000
+    // to  0b0001000000001000
 
-      // recombine the new rows with the old cols
-      newPattern = oldRows | newPattern;
-      // add new pattern to the bitrimino object
-      curr_bitrimino.pattern[i] = newPattern;
-      // add bitrimino to board in new position
-      add_to_board(board, newPattern);
-    }
+    // recombine the new rows with the old cols
+    newPattern = oldRows | newPattern;
+    // add new pattern to the bitrimino object
+    curr_bitrimino.pattern[i] = newPattern;
+    // add bitrimino to board in new position
+    add_to_board(board, newPattern);
   }
   return curr_bitrimino;
 }

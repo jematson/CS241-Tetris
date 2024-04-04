@@ -1,8 +1,7 @@
 /*
 TODO
-- header files? figure out variables
 - check for collisions
-- edge checking
+- add bitrimino to debris pile and make new one
 - removing full rows from board
 
 

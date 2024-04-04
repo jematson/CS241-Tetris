@@ -74,6 +74,37 @@ void checkDownButton() {
   delay(1);
 }
 
+bool check_debris_below(Bitrimino curr_bitrimino) {
+  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
+  for (int i=0; i<num_patterns; i++) {
+    unsigned int low_block = curr_bitrimino.pattern[i];
+
+    unsigned int high_bits = get_high_bits(low_block);
+    unsigned int low_bits = get_low_bits(low_block);
+    high_bits = high_bits << 1;
+    // loop through rows of board
+    for(int j = 0; j < 8; j++) {
+      if((high_bits & board[j]) != 0) {
+        if((low_bits & get_low_bits(board[j])) != 0) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+void checkCollision() {
+  // Reached bottom of board, add to debris and make new bitrimino
+  if(check_bottom_edge(curr_bitrimino)) {
+    curr_bitrimino = create_bitrimino();
+    add_to_board(board, curr_bitrimino);
+  } else if (check_debris_below(curr_bitrimino)) {
+    curr_bitrimino = create_bitrimino();
+    add_to_board(board, curr_bitrimino);
+  }
+}
+
 void display_board(unsigned int board[8]) {
   send_pattern(board[0], 1);
   send_pattern(board[1], 1);
@@ -104,5 +135,6 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
+  checkCollision();
   //send_pattern(curr_bitrimino, 1);
 }
