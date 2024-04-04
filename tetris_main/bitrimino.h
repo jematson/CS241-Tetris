@@ -128,7 +128,7 @@ bool check_right_edge(Bitrimino curr_bitrimino) {
   int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
   for (int i=0; i<num_patterns; i++) {
     unsigned int bitr_low_bits = get_low_bits(curr_bitrimino.pattern[i]);
-    if((bitr_low_bits & 0x0080) != 0) //Checks if the current bitrimino has a block that is on the right edge of the screen
+    if((bitr_low_bits & 0x0080) != 0) //Checks if the current bitrimino has an entry on the right edge of the board
     {
       return true;
     }
@@ -140,7 +140,7 @@ bool check_left_edge(Bitrimino curr_bitrimino) {
   int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
   for (int i=0; i<num_patterns; i++) {
     unsigned int bitr_low_bits = get_low_bits(curr_bitrimino.pattern[i]);
-    if((bitr_low_bits & 0x0001) != 0)
+    if((bitr_low_bits & 0x0001) != 0) //Checks if the current bitrimino has an entry on the left edge of the board
     {
       return true;
     }
@@ -150,7 +150,12 @@ bool check_left_edge(Bitrimino curr_bitrimino) {
 bool check_bottom_edge(Bitrimino curr_bitrimino) {
   int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
   for (int i=0; i<num_patterns; i++) {
-
+    unsigned int bitr_high_bits = get_high_bits(curr_bitrimino.pattern[i]);
+    if((bitr_high_bits & 0x8000) != 0) // Checks if current bitrimino has an entry on the bottom row of the table
+    {
+      return true;
+    }
+    
   }
   return false;
 }
