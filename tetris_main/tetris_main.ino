@@ -4,16 +4,7 @@
 #include"display_pattern.h"
 #include"buttons.h"
 #include"bitrimino.h"
-
-// Declare Pin constants (in header for now)
-//const int dataPin = 11;
-//const int shiftPin = 12;
-//const int outputPin = 13;
-
-const int left_button = 10;
-const int right_button = 9;
-const int up_button = 8;
-const int down_button = 7;
+#include"config.h"
 
 // Horizontal Bitrimino
 Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
@@ -23,14 +14,6 @@ Bitrimino bitrimino_v = { .pattern = {0b0000001100001000} };
 Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
 // Back Diagonal Bitrimino
 Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
-
-/*
-// Define starting bitriminos
-typedef enum {
-  bitrimino_h.pattern[1] = 0b0000000100011000,
-  bitrimino_v.pattern[1] = 0b0000001100001000
-} bitriminoes;
-*/
 
 
 Bitrimino curr_bitrimino = bitrimino_v;

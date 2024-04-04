@@ -1,9 +1,7 @@
 #pragma once
+#include"config.h"
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
-const int dataPin = 11;
-const int shiftPin = 12;
-const int outputPin = 13;
 
 // Set up the shift register pins (call from setup)
 void begin_shift_reg(const int dataPin, const int shiftPin, const int outputPin)
