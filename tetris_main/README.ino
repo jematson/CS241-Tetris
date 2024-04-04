@@ -1,8 +1,13 @@
 /*
 TODO
-- check for collisions
-- add bitrimino to debris pile and make new one
 - removing full rows from board
+  - remove row, shift others down
+- auto move bitrimino downwards
+- bugs?
+  -random weird shapes at spawn? calling create bitrimino too much?
 
+- sound effects!
+  - play the tetris music
+  - fun noise when row clear
 
 */
