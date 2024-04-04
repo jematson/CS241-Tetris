@@ -6,6 +6,29 @@ struct Bitrimino {
   unsigned int pattern[2];
 };
 
+// Define Bitrimino Types
+// Horizontal Bitrimino
+Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
+// Vertical Bitrimino
+Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
+// Forward Diagonal Bitrimino
+Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
+// Back Diagonal Bitrimino
+Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
+
+Bitrimino create_bitrimino() {
+  switch(random(1, 5)) {
+    case 1:
+      return bitrimino_h;
+    case 2:
+      return bitrimino_v;
+    case 3:
+      return bitrimino_f;
+    case 4:
+      return bitrimino_b; 
+  }
+}
+
 // Return high bits (rows) from a bit pattern
 unsigned int get_high_bits(unsigned int pattern) {
   return pattern & 0xFF00;

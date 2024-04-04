@@ -6,17 +6,7 @@
 #include"bitrimino.h"
 #include"config.h"
 
-// Define Bitrimino Types
-// Horizontal Bitrimino
-Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
-// Vertical Bitrimino
-Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
-// Forward Diagonal Bitrimino
-Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
-// Back Diagonal Bitrimino
-Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
-
-Bitrimino curr_bitrimino = bitrimino_v;
+Bitrimino curr_bitrimino;
 
 /*
     8x8 coordinate system
@@ -104,6 +94,8 @@ void setup() {
   pinMode(left_button, INPUT_PULLUP);
   pinMode(right_button, INPUT_PULLUP);
   pinMode(down_button, INPUT_PULLUP);
+
+  curr_bitrimino = create_bitrimino();
 }
 
 void loop() {
