@@ -16,7 +16,7 @@ Bitrimino bitrimino_f = { .pattern = {0b0000000100010000, 0b0000001000001000} };
 // Back Diagonal Bitrimino
 Bitrimino bitrimino_b = { .pattern = {0b0000000100001000, 0b0000001000010000} };
 
-Bitrimino curr_bitrimino = bitrimino_b;
+Bitrimino curr_bitrimino = bitrimino_v;
 
 /*
     8x8 coordinate system
