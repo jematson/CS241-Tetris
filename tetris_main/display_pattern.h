@@ -3,6 +3,12 @@
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
 
+// This gives names to each bit from the 16-bit pattern
+typedef enum {
+ c0 = 0, c1, c2, c3, c4, c5, c6, c7, // columns are low 8 bits
+ r0 = 8, r1, r2, r3, r4, r5, r6, r7  // rows are high 8 bits
+} rc_t;
+
 // Set up the shift register pins (call from setup)
 void begin_shift_reg(const int dataPin, const int shiftPin, const int outputPin)
 {
@@ -10,12 +16,6 @@ void begin_shift_reg(const int dataPin, const int shiftPin, const int outputPin)
   pinMode(shiftPin,OUTPUT);
   pinMode(outputPin,OUTPUT);  
 }
-
-// This gives names to each bit from the 16-bit pattern
-typedef enum {
- c0 = 0, c1, c2, c3, c4, c5, c6, c7, // columns are low 8 bits
- r0 = 8, r1, r2, r3, r4, r5, r6, r7  // rows are high 8 bits
-} rc_t;
 
 /*
  Pattern is a 16 bit int = 8 rows, 8 columns
