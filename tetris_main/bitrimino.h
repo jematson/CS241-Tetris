@@ -31,6 +31,7 @@ void remove_from_board(unsigned int board[8], unsigned int bitrimino) {
   unsigned int bitr_high_bits = get_high_bits(bitrimino);
   // loop through rows of board
   for(int i = 0; i < 8; i++) {
+    // Checking if the bitrimino has something in the ith row of the board
     if((bitr_high_bits & board[i]) != 0) {
       unsigned int board_high_bits = get_high_bits(board[i]);
       unsigned int board_low_bits = get_low_bits(board[i]);

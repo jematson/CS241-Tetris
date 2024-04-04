@@ -33,7 +33,7 @@ typedef enum {
 */
 
 
-Bitrimino curr_bitrimino = bitrimino_f;
+Bitrimino curr_bitrimino = bitrimino_v;
 
 /*
     8x8 coordinate system
