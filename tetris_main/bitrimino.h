@@ -127,14 +127,23 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino curr_bitrimino) {
 bool check_right_edge(Bitrimino curr_bitrimino) {
   int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
   for (int i=0; i<num_patterns; i++) {
-  
+    unsigned int bitr_low_bits = get_low_bits(curr_bitrimino.pattern[i]);
+    if((bitr_low_bits & 0x0080) != 0) //Checks if the current bitrimino has a block that is on the right edge of the screen
+    {
+      return true;
+    }
   }
   return false;
 }
+
 bool check_left_edge(Bitrimino curr_bitrimino) {
   int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
   for (int i=0; i<num_patterns; i++) {
-
+    unsigned int bitr_low_bits = get_low_bits(curr_bitrimino.pattern[i]);
+    if((bitr_low_bits & 0x0001) != 0)
+    {
+      return true;
+    }
   }
   return false;
 }
