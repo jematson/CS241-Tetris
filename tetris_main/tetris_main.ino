@@ -105,6 +105,23 @@ void checkCollision() {
   }
 }
 
+void checkRows(unsigned int board[8]) {
+  // Loop through rows of board, starting at the bottom
+  for(int i = 8; i >= 0; i--) {
+    unsigned int cols_filled = get_low_bits(board[i]);
+    if(cols_filled ) {
+      remove_row(board, i);
+    }
+  }
+}
+
+void remove_row(unsigned int board[8], int row) {
+  //remove row from board
+
+  //shift other rows down and shift row bits over
+
+}
+
 void display_board(unsigned int board[8]) {
   send_pattern(board[0], 1);
   send_pattern(board[1], 1);
