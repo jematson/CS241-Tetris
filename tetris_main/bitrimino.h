@@ -109,7 +109,7 @@ void add_to_board(unsigned int board[8], unsigned int bitrimino) {
   }
 }
 
-// Add the given bitrimino object to the board
+// Add the pit patterns of given bitrimino object to the board
 void add_to_board(unsigned int board[8], Bitrimino bitrimino) {
   for (int i=0; i < num_patterns(bitrimino); i++) {
     add_to_board(board, bitrimino.pattern[i]);

@@ -160,7 +160,8 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
+  check_rows();
   add_to_board(board, curr_bitrimino);
   checkCollision();
-  check_rows();
+
 }
