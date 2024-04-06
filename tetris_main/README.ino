@@ -5,6 +5,7 @@ TODO
 - auto move bitrimino downwards
 - bugs?
   -random weird shapes at spawn? calling create bitrimino too much?
+- hard drop
 
 - sound effects!
   - play the tetris music

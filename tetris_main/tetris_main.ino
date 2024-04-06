@@ -1,4 +1,4 @@
-// CS 241 Final Project: Tetris Game
+// CS 241 Final Project: Bitris Game
 // Jenae Matson and Elliott Lewandowski
 
 #include"display_pattern.h"
@@ -41,6 +41,8 @@ bool right_state = false;
 bool prev_right = right_state;
 bool down_state = false;
 bool prev_down = down_state;
+bool up_state = false;
+bool prev_up = up_state;
 
 // Check button states and do stuff if pressed
 void checkLeftButton() {
@@ -105,21 +107,32 @@ void checkCollision() {
   }
 }
 
-void checkRows(unsigned int board[8]) {
+void check_rows() {
   // Loop through rows of board, starting at the bottom
-  for(int i = 8; i >= 0; i--) {
-    unsigned int cols_filled = get_low_bits(board[i]);
-    if(cols_filled ) {
-      remove_row(board, i);
+  for(int i = 7; i >= 0; i--) {
+    // check if the row has all columns filled
+    if((board[i] & 0x00FF) == 0b11111111) {
+      Serial.print("removing row ");
+      Serial.println(i);
+      remove_row(i);
     }
   }
 }
 
-void remove_row(unsigned int board[8], int row) {
+void remove_row(int row) {
+  Serial.println("In remove_row function");
   //remove row from board
-
   //shift other rows down and shift row bits over
-
+  for(int i=row; i > 0; i--) {
+    board[i] = board[i-1];
+    // shift row down
+    unsigned int old_cols = get_low_bits(board[i]);
+    unsigned int new_rows = get_high_bits(board[i]);
+    new_rows = new_rows << 1;
+    board[i] = old_cols | new_rows;
+  }
+  // add new empty row at top
+  board[0] = 0b0000000100000000;
 }
 
 void display_board(unsigned int board[8]) {
@@ -143,7 +156,8 @@ void setup() {
   pinMode(right_button, INPUT_PULLUP);
   pinMode(down_button, INPUT_PULLUP);
 
-  curr_bitrimino = create_bitrimino();
+  //curr_bitrimino = create_bitrimino();
+  curr_bitrimino = bitrimino_h;
   add_to_board(board, curr_bitrimino);
 }
 
@@ -153,5 +167,6 @@ void loop() {
   checkRightButton();
   checkDownButton();
   checkCollision();
+  check_rows();
   //send_pattern(curr_bitrimino, 1);
 }

@@ -10,7 +10,7 @@ struct Bitrimino {
 // Horizontal Bitrimino
 Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
 // Vertical Bitrimino
-Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
+Bitrimino bitrimino_v = { .pattern = {0b0000000100001000, 0b0000001000001000} };
 // Forward Diagonal Bitrimino
 Bitrimino bitrimino_f = { .pattern = {0b0000001000001000, 0b0000000100010000} };
 // Back Diagonal Bitrimino
@@ -21,7 +21,7 @@ Bitrimino create_bitrimino() {
     case 1:
       return bitrimino_h;
     case 2:
-      return bitrimino_v;
+      return bitrimino_h;
     case 3:
       return bitrimino_f;
     case 4:
