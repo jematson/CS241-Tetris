@@ -100,10 +100,8 @@ void checkCollision() {
   // Reached bottom of board, add to debris and make new bitrimino
   if(check_bottom_edge(curr_bitrimino)) {
     curr_bitrimino = create_bitrimino();
-    add_to_board(board, curr_bitrimino);
   } else if (check_debris_below(curr_bitrimino)) {
     curr_bitrimino = create_bitrimino();
-    add_to_board(board, curr_bitrimino);
   }
 }
 
@@ -121,15 +119,11 @@ void check_rows() {
 
 void remove_row(int row) {
   Serial.println("In remove_row function");
-  //remove row from board
-  //shift other rows down and shift row bits over
   for(int i=row; i > 0; i--) {
+    // replace current row with the row above it.
     board[i] = board[i-1];
-    // shift row down
-    unsigned int old_cols = get_col_bits(board[i]);
-    unsigned int new_rows = get_row_bits(board[i]);
-    new_rows = new_rows << 1;
-    board[i] = old_cols | new_rows;
+    // shift the row to match the new spot
+    board[i] = shift_rows_down(board[i]);
   }
   // add new empty row at top
   board[0] = 0b0000000100000000;
@@ -166,7 +160,7 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
+  add_to_board(board, curr_bitrimino);
   checkCollision();
   check_rows();
-  //send_pattern(curr_bitrimino, 1);
 }

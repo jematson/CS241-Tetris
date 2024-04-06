@@ -162,7 +162,6 @@ bool check_bottom_edge(Bitrimino& curr_bitrimino) {
     {
       return true;
     }
-    
   }
   return false;
 }
@@ -176,8 +175,6 @@ Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
       remove_from_board(board, curr_bitrimino.pattern[i]);
       // reform the column bits
       curr_bitrimino.pattern[i] = shift_cols_right(curr_bitrimino.pattern[i]);
-      // add bitrimino to board in new position
-      add_to_board(board, curr_bitrimino.pattern[i]);
     }
   }
   return curr_bitrimino;
@@ -192,8 +189,6 @@ Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
       remove_from_board(board, curr_bitrimino.pattern[i]);
       // reform the column bits
       curr_bitrimino.pattern[i] = shift_cols_left(curr_bitrimino.pattern[i]);
-      // add bitrimino to board in new position
-      add_to_board(board, curr_bitrimino.pattern[i]);
     }
   }
   return curr_bitrimino;
@@ -206,8 +201,6 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
     remove_from_board(board, curr_bitrimino.pattern[i]);
     // reform row bits
     curr_bitrimino.pattern[i] = shift_rows_down(curr_bitrimino.pattern[i]);
-    // add bitrimino to board in new position
-    add_to_board(board, curr_bitrimino.pattern[i]);
   }
   return curr_bitrimino;
 }
