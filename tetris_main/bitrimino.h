@@ -39,6 +39,60 @@ unsigned int get_col_bits(unsigned int pattern) {
   return pattern & 0x00FF;
 }
 
+// Shift the col bits of a bit pattern to move right on the screen
+unsigned int shift_cols_right(unsigned int pattern) {
+  // save the old rows
+  unsigned int newPattern = get_row_bits(pattern);
+  // copy the cols
+  unsigned int newCols = get_col_bits(pattern);
+  // left shift the cols by 1
+  newCols = newCols << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100010000
+
+  // recombine the old rows with the new cols
+  newPattern = newPattern | newCols;
+  // add new pattern to the bitrimino object
+  return newPattern;
+}
+// Shift the col bits of a bit pattern to move left on the screen
+unsigned int shift_cols_left(unsigned int pattern) {
+  // save the old rows
+  unsigned int newPattern = get_row_bits(pattern);
+  // copy the cols
+  unsigned int newCols = get_col_bits(pattern);
+  // right shift the cols by 1
+  newCols = newCols >> 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000000100001000
+  // to  0b0000000100000100
+
+  // recombine the old rows with the new cols
+  newPattern = newPattern | newCols;
+  return newPattern;
+}
+
+unsigned int shift_rows_down(unsigned int pattern) {
+  // save the old cols
+  unsigned int newPattern = get_col_bits(pattern);
+  // copy the rows
+  unsigned int newRows = get_row_bits(pattern);
+  // left shift the rows by 1 to move down
+  newRows = newRows << 1;
+  //       | rows  | cols  |
+  // ex. 0b7654321076543210
+  //     0b0000100000001000
+  // to  0b0001000000001000
+
+  // recombine the new rows with the old cols
+  newPattern = newRows | newPattern;
+  // add new pattern to the bitrimino object
+  return newPattern;
+}
+
 // Return the number of bit patterns a Bitrimino object has (1 or 2)
 int num_patterns(Bitrimino bitrimino) {
   return sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
@@ -120,23 +174,10 @@ Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
     for (int i=0; i < num_patterns(curr_bitrimino); i++) {
       // remove the bitrimino from the board
       remove_from_board(board, curr_bitrimino.pattern[i]);
-      // save the high bits, the rows
-      unsigned int newPattern = get_row_bits(curr_bitrimino.pattern[i]);
-      // copy the low bits, the cols
-      unsigned int oldCols = get_col_bits(curr_bitrimino.pattern[i]);
-      // left shift the cols by 1
-      oldCols = oldCols << 1;
-      //       | rows  | cols  |
-      // ex. 0b7654321076543210
-      //     0b0000000100001000
-      // to  0b0000000100010000
-
-      // recombine the old rows with the old cols
-      newPattern = newPattern | oldCols;
-      // add new pattern to the bitrimino object
-      curr_bitrimino.pattern[i] = newPattern;
+      // reform the column bits
+      curr_bitrimino.pattern[i] = shift_cols_right(curr_bitrimino.pattern[i]);
       // add bitrimino to board in new position
-      add_to_board(board, newPattern);
+      add_to_board(board, curr_bitrimino.pattern[i]);
     }
   }
   return curr_bitrimino;
@@ -149,23 +190,10 @@ Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
     for (int i=0; i < num_patterns(curr_bitrimino); i++) {
       // remove the bitrimino from the board
       remove_from_board(board, curr_bitrimino.pattern[i]);
-      // save the high bits, the rows
-      unsigned int newPattern = get_row_bits(curr_bitrimino.pattern[i]);
-      // copy the low bits, the cols
-      unsigned int oldCols = get_col_bits(curr_bitrimino.pattern[i]);
-      // right shift the cols by 1
-      oldCols = oldCols >> 1;
-      //       | rows  | cols  |
-      // ex. 0b7654321076543210
-      //     0b0000000100001000
-      // to  0b0000000100000100
-
-      // recombine the old rows with the new cols
-      newPattern = newPattern | oldCols;
-      // add new pattern to the bitrimino object
-      curr_bitrimino.pattern[i] = newPattern;
+      // reform the column bits
+      curr_bitrimino.pattern[i] = shift_cols_left(curr_bitrimino.pattern[i]);
       // add bitrimino to board in new position
-      add_to_board(board, newPattern);
+      add_to_board(board, curr_bitrimino.pattern[i]);
     }
   }
   return curr_bitrimino;
@@ -176,23 +204,10 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
     // remove the bitrimino from the board
     remove_from_board(board, curr_bitrimino.pattern[i]);
-    // save the low bits, the cols
-    unsigned int newPattern = get_col_bits(curr_bitrimino.pattern[i]);
-    // copy the high bits, the rows
-    unsigned int oldRows = get_row_bits(curr_bitrimino.pattern[i]);
-    // left shift the rows by 1 to move down
-    oldRows = oldRows << 1;
-    //       | rows  | cols  |
-    // ex. 0b7654321076543210
-    //     0b0000100000001000
-    // to  0b0001000000001000
-
-    // recombine the new rows with the old cols
-    newPattern = oldRows | newPattern;
-    // add new pattern to the bitrimino object
-    curr_bitrimino.pattern[i] = newPattern;
+    // reform row bits
+    curr_bitrimino.pattern[i] = shift_rows_down(curr_bitrimino.pattern[i]);
     // add bitrimino to board in new position
-    add_to_board(board, newPattern);
+    add_to_board(board, curr_bitrimino.pattern[i]);
   }
   return curr_bitrimino;
 }
