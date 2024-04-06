@@ -98,21 +98,18 @@ int num_patterns(Bitrimino bitrimino) {
   return sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
 }
 
-// Add the given bitrimino pattern to the board
-void add_to_board(unsigned int board[8], unsigned int bitrimino) {
-  unsigned int bitr_high_bits = get_row_bits(bitrimino);
-  // loop through rows of board
-  for(int i = 0; i < 8; i++) {
-    if((bitr_high_bits & board[i]) != 0) {
-      board[i] = board[i] | bitrimino;
-    }
-  }
-}
-
 // Add the pit patterns of given bitrimino object to the board
 void add_to_board(unsigned int board[8], Bitrimino bitrimino) {
+  // iterate through patterns of bitrimino
   for (int i=0; i < num_patterns(bitrimino); i++) {
-    add_to_board(board, bitrimino.pattern[i]);
+    unsigned int bitr_rows = get_row_bits(bitrimino.pattern[i]);
+    // loop through rows of board
+    for(int j = 0; j < 8; j++) {
+      // If the bitrimino has a block in this row of the board, add it to the row.
+      if((bitr_rows & board[j]) != 0) {
+        board[j] = board[j] | bitrimino.pattern[i];
+      }
+    }
   }
 }
 
