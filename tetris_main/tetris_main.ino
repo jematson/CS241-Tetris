@@ -81,13 +81,13 @@ bool check_debris_below(Bitrimino curr_bitrimino) {
   for (int i=0; i<num_patterns; i++) {
     unsigned int low_block = curr_bitrimino.pattern[i];
 
-    unsigned int high_bits = get_high_bits(low_block);
-    unsigned int low_bits = get_low_bits(low_block);
+    unsigned int high_bits = get_row_bits(low_block);
+    unsigned int low_bits = get_col_bits(low_block);
     high_bits = high_bits << 1;
     // loop through rows of board
     for(int j = 0; j < 8; j++) {
       if((high_bits & board[j]) != 0) {
-        if((low_bits & get_low_bits(board[j])) != 0) {
+        if((low_bits & get_col_bits(board[j])) != 0) {
           return true;
         }
       }
@@ -126,8 +126,8 @@ void remove_row(int row) {
   for(int i=row; i > 0; i--) {
     board[i] = board[i-1];
     // shift row down
-    unsigned int old_cols = get_low_bits(board[i]);
-    unsigned int new_rows = get_high_bits(board[i]);
+    unsigned int old_cols = get_col_bits(board[i]);
+    unsigned int new_rows = get_row_bits(board[i]);
     new_rows = new_rows << 1;
     board[i] = old_cols | new_rows;
   }
