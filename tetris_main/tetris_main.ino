@@ -144,15 +144,20 @@ void display_board(unsigned int board[8]) {
 void setup() {
   randomSeed(analogRead(A0));
   Serial.begin(57600);
+  Serial.println("****************");
   Serial.println("started up");
+  Serial.println("****************");
   begin_shift_reg(dataPin, shiftPin, outputPin);
   pinMode(left_button, INPUT_PULLUP);
   pinMode(right_button, INPUT_PULLUP);
   pinMode(down_button, INPUT_PULLUP);
 
+  // Create the first bitrimino and add it to the board
   //curr_bitrimino = create_bitrimino();
-  curr_bitrimino = bitrimino_h;
+  curr_bitrimino = bitrimino_v;
   add_to_board(board, curr_bitrimino);
+  Serial.println((unsigned int)board[0], BIN);
+  Serial.println((unsigned int)board[1], BIN);
 }
 
 void loop() {
@@ -160,8 +165,13 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
-  check_rows();
-  add_to_board(board, curr_bitrimino);
-  checkCollision();
-
+  if(prev_left || prev_right || prev_down) {
+    check_rows();
+    add_to_board(board, curr_bitrimino);
+    Serial.println("-----------------");
+    Serial.println((unsigned int)board[0], BIN);
+    Serial.println((unsigned int)board[1], BIN);
+    Serial.println("-----------------");
+    checkCollision();
+  }
 }
