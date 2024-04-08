@@ -1,10 +1,6 @@
 /*
 TODO
-- removing full rows from board
-  - remove row, shift others down
 - auto move bitrimino downwards
-- bugs?
-  -random weird shapes at spawn? calling create bitrimino too much?
 - hard drop
 
 - sound effects!
