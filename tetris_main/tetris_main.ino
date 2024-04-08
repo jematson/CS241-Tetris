@@ -89,6 +89,7 @@ bool check_debris_below(Bitrimino& curr_bitrimino) {
     for(int j = 0; j < 8; j++) {
       if((high_bits & board[j]) != 0) {
         if((low_bits & get_col_bits(board[j])) != 0) {
+          add_to_board(board, curr_bitrimino);
           return true;
         }
       }
