@@ -76,9 +76,10 @@ void checkDownButton() {
   delay(1);
 }
 
-bool check_debris_below(Bitrimino curr_bitrimino) {
-  int num_patterns = sizeof(curr_bitrimino.pattern) / sizeof(curr_bitrimino.pattern[0]);
-  for (int i=0; i<num_patterns; i++) {
+bool check_debris_below(Bitrimino& curr_bitrimino) {
+  // remove the bitrimino from the board so it doesn't count itself as debris
+  remove_from_board(board, curr_bitrimino);
+  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
     unsigned int low_block = curr_bitrimino.pattern[i];
 
     unsigned int high_bits = get_row_bits(low_block);
@@ -93,6 +94,7 @@ bool check_debris_below(Bitrimino curr_bitrimino) {
       }
     }
   }
+  add_to_board(board, curr_bitrimino);
   return false;
 }
 
@@ -153,8 +155,7 @@ void setup() {
   pinMode(down_button, INPUT_PULLUP);
 
   // Create the first bitrimino and add it to the board
-  //curr_bitrimino = create_bitrimino();
-  curr_bitrimino = bitrimino_v;
+  curr_bitrimino = create_bitrimino();
   add_to_board(board, curr_bitrimino);
   Serial.println((unsigned int)board[0], BIN);
   Serial.println((unsigned int)board[1], BIN);
@@ -165,7 +166,7 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
-  if(prev_left || prev_right || prev_down) {
+  if(right_state || left_state || down_state) {
     check_rows();
     add_to_board(board, curr_bitrimino);
     Serial.println("-----------------");
