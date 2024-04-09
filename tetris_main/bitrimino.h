@@ -164,23 +164,39 @@ void remove_from_board(unsigned int board[8], Bitrimino& bitrimino) {
 // Edge checking for current bitrimino
 // false = no problem
 // true = hitting edge
-bool check_right_edge(Bitrimino& curr_bitrimino) {
+bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
     unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    if((bitr_low_bits & 0x0080) != 0) //Checks if the current bitrimino has an entry on the right edge of the board
+    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    // Check if current bitrimino is at the right edge of the board
+    if((bitr_low_bits & 0x0080) != 0) 
     {
       return true;
+    } 
+    // Check if the bitrimino is running into debris on the right
+    for (int j = 0; j<7; j++) {
+      if((bitr_high_bits & get_row_bits(board[j])) != 0 && ((bitr_low_bits << 1) & get_col_bits(board[j])) != 0) {
+        return true;
+      }
     }
   }
   return false;
 }
 
-bool check_left_edge(Bitrimino& curr_bitrimino) {
+bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
     unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    if((bitr_low_bits & 0x0001) != 0) //Checks if the current bitrimino has an entry on the left edge of the board
+    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    //Checks if the current bitrimino is on the left edge of the board
+    if((bitr_low_bits & 0x0001) != 0) 
     {
       return true;
+    }
+    // Check if the bitrimino is running into debris on the left
+    for (int j = 0; j<7; j++) {
+      if((bitr_high_bits & get_row_bits(board[j])) != 0 && ((bitr_low_bits >> 1) & get_col_bits(board[j])) != 0) {
+        return true;
+      }
     }
   }
   return false;
@@ -198,7 +214,7 @@ bool check_bottom_edge(Bitrimino& curr_bitrimino) {
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  if(!check_right_edge(curr_bitrimino)) // If not on the edge of the board move 
+  if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 
   {
     // remove the bitrimino from the board
     remove_from_board(board, curr_bitrimino);
@@ -212,7 +228,7 @@ Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block left
 Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  if(!check_left_edge(curr_bitrimino)) // If not on the edge of the board move
+  if(!check_left_edge(board, curr_bitrimino)) // If not on the edge of the board move
   {
     // remove the bitrimino from the board
     remove_from_board(board, curr_bitrimino);
