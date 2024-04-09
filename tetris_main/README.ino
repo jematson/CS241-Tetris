@@ -1,5 +1,6 @@
 /*
 TODO
+- side debris checking
 - auto move bitrimino downwards
 - hard drop
 
