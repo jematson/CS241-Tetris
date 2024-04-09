@@ -6,23 +6,9 @@
 #include"bitrimino.h"
 #include"config.h"
 
+// Starting game state, empty board, 0 points
 Bitrimino curr_bitrimino;
 
-/*
-    8x8 coordinate system
-      12345678
-      ________
-    1|00000000
-    2|00000000
-    3|00000000
-    4|00000000
-    5|00000000
-    6|00000000
-    7|00000000
-    8|00000000
-*/
-
-// Start with an empty board
 unsigned int board[8] {
   0b0000000100000000,
   0b0000001000000000,
@@ -59,7 +45,6 @@ void check_auto_drop()
     add_to_board(board, curr_bitrimino);
   }
 }
-
 
 // Check button states and do stuff if pressed
 void checkLeftButton() {
@@ -123,6 +108,7 @@ void checkCollision() {
     curr_bitrimino = create_bitrimino();
     
     last_drop = millis();
+  // Hit debris pile, add to debris and make new bitrimino
   } else if (check_debris_below(curr_bitrimino)) {
     check_rows();
     curr_bitrimino = create_bitrimino();
