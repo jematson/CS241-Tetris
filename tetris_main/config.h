@@ -28,5 +28,5 @@ unsigned int board[8] {
 
 int points = 0;
 
-int last_drop = millis();
-int drop_time = 1000; // Time between autodrop intervals in millis
+long last_drop = millis();
+long drop_time = 1000; // Time between autodrop intervals in millis
