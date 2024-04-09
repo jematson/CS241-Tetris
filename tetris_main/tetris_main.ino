@@ -34,6 +34,8 @@ unsigned int board[8] {
   0b1000000000000000
 };
 
+int points = 0;
+
 int last_drop = millis();
 int drop_time = 1000; // Time between autodrop intervals in millis
 
@@ -137,6 +139,9 @@ void check_rows() {
       Serial.print("removing row ");
       Serial.println(i);
       remove_row(i);
+      points ++;
+      Serial.print("Points: ");
+      Serial.println(points);
     }
   }
 }
