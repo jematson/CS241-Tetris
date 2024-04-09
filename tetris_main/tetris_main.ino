@@ -182,6 +182,6 @@ void loop() {
     Serial.println((unsigned int)board[0], BIN);
     Serial.println((unsigned int)board[1], BIN);
     Serial.println("-----------------");
-    checkCollision();
   }
+  checkCollision();
 }
