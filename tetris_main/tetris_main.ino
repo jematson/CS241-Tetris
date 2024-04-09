@@ -34,6 +34,8 @@ unsigned int board[8] {
   0b1000000000000000
 };
 
+int last_drop = millis();
+
 // Initialize button states
 bool left_state = false;
 bool prev_left = left_state;
@@ -103,8 +105,10 @@ void checkCollision() {
   // Reached bottom of board, add to debris and make new bitrimino
   if(check_bottom_edge(curr_bitrimino)) {
     curr_bitrimino = create_bitrimino();
+    last_drop = millis();
   } else if (check_debris_below(curr_bitrimino)) {
     curr_bitrimino = create_bitrimino();
+    last_drop = millis();
   }
 }
 
@@ -162,8 +166,6 @@ void setup() {
   Serial.println((unsigned int)board[1], BIN);
 }
 
-int last_drop = millis();
-
 void loop() {
   if(millis() - last_drop > 1000)
   {
@@ -175,13 +177,9 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
+  check_rows();
   if(right_state || left_state || down_state) {
-    check_rows();
     add_to_board(board, curr_bitrimino);
-    Serial.println("-----------------");
-    Serial.println((unsigned int)board[0], BIN);
-    Serial.println((unsigned int)board[1], BIN);
-    Serial.println("-----------------");
   }
   checkCollision();
 }
