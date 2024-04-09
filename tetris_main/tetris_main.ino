@@ -169,6 +169,7 @@ void loop() {
   {
     last_drop = millis();
     move_bitr_down(board, curr_bitrimino);
+    add_to_board(board, curr_bitrimino);
   }
   display_board(board);
   checkLeftButton();
