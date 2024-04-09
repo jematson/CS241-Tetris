@@ -162,7 +162,14 @@ void setup() {
   Serial.println((unsigned int)board[1], BIN);
 }
 
+int last_drop = millis();
+
 void loop() {
+  if(millis() - last_drop > 1000)
+  {
+    last_drop = millis();
+    move_bitr_down(board, curr_bitrimino);
+  }
   display_board(board);
   checkLeftButton();
   checkRightButton();
