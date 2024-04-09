@@ -166,13 +166,18 @@ void setup() {
   Serial.println((unsigned int)board[1], BIN);
 }
 
-void loop() {
+void check_auto_drop()
+{
   if(millis() - last_drop > 1000)
   {
     last_drop = millis();
     move_bitr_down(board, curr_bitrimino);
     add_to_board(board, curr_bitrimino);
   }
+}
+
+void loop() {
+  check_auto_drop();
   display_board(board);
   checkLeftButton();
   checkRightButton();
