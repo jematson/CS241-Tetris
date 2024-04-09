@@ -37,7 +37,7 @@ void send_bit_to_shift_reg(int bit)
   digitalWrite(shiftPin,1);
 }
 
-// 595 expects 8 bits: the 8 bottom pins of the 8x8 LED matrix
+// 595 expects 16 bits: the 8 bottom pins and 8 top pins of the 8x8 LED matrix
 void send_to_shift_reg(unsigned int raw_pattern)
 {
   send_bit_to_shift_reg(pattern_has_bit(raw_pattern, r0));
@@ -70,7 +70,7 @@ void send_to_shift_reg(unsigned int raw_pattern)
 void send_pattern(unsigned int nice_pattern, int delay)
 {
   unsigned int raw_pattern = 0b1111111100000000 ^ nice_pattern; // rows are 0 to be lit
-  send_to_shift_reg(raw_pattern); // bottom pins
+  send_to_shift_reg(raw_pattern);
   delayMicroseconds(delay);
   unsigned int zero_pattern = 0b1111111100000000;
   send_to_shift_reg(zero_pattern);

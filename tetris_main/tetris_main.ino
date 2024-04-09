@@ -6,35 +6,6 @@
 #include"bitrimino.h"
 #include"config.h"
 
-// Starting game state, empty board, 0 points
-Bitrimino curr_bitrimino;
-
-unsigned int board[8] {
-  0b0000000100000000,
-  0b0000001000000000,
-  0b0000010000000000,
-  0b0000100000000000,
-  0b0001000000000000,
-  0b0010000000000000,
-  0b0100000000000000,
-  0b1000000000000000
-};
-
-int points = 0;
-
-int last_drop = millis();
-int drop_time = 1000; // Time between autodrop intervals in millis
-
-// Initialize button states
-bool left_state = false;
-bool prev_left = left_state;
-bool right_state = false;
-bool prev_right = right_state;
-bool down_state = false;
-bool prev_down = down_state;
-bool up_state = false;
-bool prev_up = up_state;
-
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()
 {
@@ -44,38 +15,6 @@ void check_auto_drop()
     move_bitr_down(board, curr_bitrimino);
     add_to_board(board, curr_bitrimino);
   }
-}
-
-// Check button states and do stuff if pressed
-void checkLeftButton() {
-  left_state = !digitalRead(left_button);
-
-  if(left_state && left_state != prev_left) {
-    curr_bitrimino = move_bitr_left(board, curr_bitrimino);
-    left_state = true;
-  }
-  prev_left = left_state;
-  delay(1);
-}
-void checkRightButton() {
-  right_state = !digitalRead(right_button);
-
-  if(right_state && right_state != prev_right) {
-    curr_bitrimino = move_bitr_right(board, curr_bitrimino);
-    right_state = true;
-  }
-  prev_right = right_state;
-  delay(1);
-}
-void checkDownButton() {
-  down_state = !digitalRead(down_button);
-
-  if(down_state && down_state != prev_down) {
-    curr_bitrimino = move_bitr_down(board, curr_bitrimino);
-    down_state = true;
-  }
-  prev_down = down_state;
-  delay(1);
 }
 
 bool check_debris_below(Bitrimino& curr_bitrimino) {
@@ -125,6 +64,7 @@ void check_rows() {
       Serial.print("removing row ");
       Serial.println(i);
       remove_row(i);
+      // If row cleared, add a point and display
       points ++;
       Serial.print("Points: ");
       Serial.println(points);
@@ -155,7 +95,6 @@ void display_board(unsigned int board[8]) {
   send_pattern(board[7], 1);
 }
 
-
 void setup() {
   randomSeed(analogRead(A0));
   Serial.begin(57600);
@@ -173,7 +112,7 @@ void setup() {
 }
 
 void loop() {
-  //check_auto_drop();
+  check_auto_drop();
   display_board(board);
   checkLeftButton();
   checkRightButton();

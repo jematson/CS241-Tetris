@@ -11,7 +11,6 @@ struct Bitrimino {
 Bitrimino bitrimino_h = { .pattern = {0b0000000100011000} };
 // Vertical Bitrimino
 Bitrimino bitrimino_v = { .pattern = {0b0000001000001000, 0b0000000100001000} };
-//
 // Forward Diagonal Bitrimino
 Bitrimino bitrimino_f = { .pattern = {0b0000001000001000, 0b0000000100010000} };
 // Back Diagonal Bitrimino
@@ -30,7 +29,6 @@ Bitrimino create_bitrimino() {
   }
 }
 
-
 // Return high bits (rows) from a bit pattern
 unsigned int get_row_bits(unsigned int pattern) {
   return pattern & 0xFF00;
@@ -40,7 +38,7 @@ unsigned int get_col_bits(unsigned int pattern) {
   return pattern & 0x00FF;
 }
 
-// Shift the col bits of a bit pattern to move right on the screen
+// Shift the col bits of a bit pattern to move right on the board
 unsigned int shift_cols_right(unsigned int pattern) {
   // save the old rows
   unsigned int newPattern = get_row_bits(pattern);
@@ -53,12 +51,11 @@ unsigned int shift_cols_right(unsigned int pattern) {
   //     0b0000000100001000
   // to  0b0000000100010000
 
-  // recombine the old rows with the new cols
+  // recombine the old rows with the new cols and return
   newPattern = newPattern | newCols;
-  // add new pattern to the bitrimino object
   return newPattern;
 }
-// Shift the col bits of a bit pattern to move left on the screen
+// Shift the col bits of a bit pattern to move left on the board
 unsigned int shift_cols_left(unsigned int pattern) {
   // save the old rows
   unsigned int newPattern = get_row_bits(pattern);
@@ -71,11 +68,11 @@ unsigned int shift_cols_left(unsigned int pattern) {
   //     0b0000000100001000
   // to  0b0000000100000100
 
-  // recombine the old rows with the new cols
+  // recombine the old rows with the new cols and return
   newPattern = newPattern | newCols;
   return newPattern;
 }
-
+// Shift the row bits of a bit pattern to move down on the board
 unsigned int shift_rows_down(unsigned int pattern) {
   // save the old cols
   unsigned int newPattern = get_col_bits(pattern);
@@ -88,9 +85,8 @@ unsigned int shift_rows_down(unsigned int pattern) {
   //     0b0000100000001000
   // to  0b0001000000001000
 
-  // recombine the new rows with the old cols
+  // recombine the new rows with the old cols and return
   newPattern = newRows | newPattern;
-  // add new pattern to the bitrimino object
   return newPattern;
 }
 
@@ -99,7 +95,7 @@ int num_patterns(Bitrimino bitrimino) {
   return sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
 }
 
-// Add the given Bitrimino obkect to the board
+// Add the given Bitrimino object to the board
 void add_to_board(unsigned int board[8], Bitrimino& bitrimino) {
   // iterate over the rows of the board
   for(int j = 0; j < 8; j++) {
@@ -131,44 +127,43 @@ void remove_from_board(unsigned int board[8], Bitrimino& bitrimino) {
 }
 
 // Edge checking for current bitrimino
-// false = no problem
-// true = hitting edge
+// true = hitting edge or debris
 bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  // remove the bitrimino from the board
+  // remove the bitrimino from the board so it doesn't count itself as debris
   remove_from_board(board, curr_bitrimino);
+  // Loop through patterns of Bitrimino
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    unsigned int bitr_col_bits = get_col_bits(curr_bitrimino.pattern[i]);
+    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
     // Check if current bitrimino is at the right edge of the board
-    if((bitr_low_bits & 0x0080) != 0) 
+    if((bitr_col_bits & 0x0080) != 0) 
     {
       return true;
     } 
     // Check if the bitrimino is running into debris on the right
     for (int j = 0; j<7; j++) {
-      if((bitr_high_bits & get_row_bits(board[j])) != 0 && ((bitr_low_bits << 1) & get_col_bits(board[j])) != 0) {
+      if((bitr_row_bits & get_row_bits(board[j])) != 0 && ((bitr_col_bits << 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
     }
   }
   return false;
 }
-
 bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  // Remove the bitrimino from the board
+  // Remove the bitrimino from the board so it doesn't count itself as debris
   remove_from_board(board, curr_bitrimino);
-  // Loop through patterns of bitrmino
+  // Loop through patterns of bitrimino
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    unsigned int bitr_col_bits = get_col_bits(curr_bitrimino.pattern[i]);
+    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
     //Checks if the current bitrimino is on the left edge of the board
-    if((bitr_low_bits & 0x0001) != 0) 
+    if((bitr_col_bits & 0x0001) != 0) 
     {
       return true;
     }
     // Check if the bitrimino is running into debris on the left
     for (int j = 0; j<7; j++) {
-      if((bitr_high_bits & get_row_bits(board[j])) != 0 && ((bitr_low_bits >> 1) & get_col_bits(board[j])) != 0) {
+      if((bitr_row_bits & get_row_bits(board[j])) != 0 && ((bitr_col_bits >> 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
     }
@@ -177,8 +172,9 @@ bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
 }
 bool check_bottom_edge(Bitrimino& curr_bitrimino) {
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
-    if((bitr_high_bits & 0x8000) != 0) // Checks if current bitrimino has an entry on the bottom row of the table
+    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    // Check if the bitrimino is at the bottom of the board
+    if((bitr_row_bits & 0x8000) != 0)
     {
       return true;
     }
@@ -190,7 +186,6 @@ bool check_bottom_edge(Bitrimino& curr_bitrimino) {
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
   if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 
   {
-    
     for (int i=0; i < num_patterns(curr_bitrimino); i++) {
       // reform the column bits
       curr_bitrimino.pattern[i] = shift_cols_right(curr_bitrimino.pattern[i]);
@@ -203,7 +198,6 @@ Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
 Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
   if(!check_left_edge(board, curr_bitrimino)) // If not on the edge of the board move
   {
-    
     for (int i=0; i < num_patterns(curr_bitrimino); i++) {
       // reform the column bits
       curr_bitrimino.pattern[i] = shift_cols_left(curr_bitrimino.pattern[i]);
