@@ -35,6 +35,7 @@ unsigned int board[8] {
 };
 
 int last_drop = millis();
+int drop_time = 1000; // Time between autodrop intervals in millis
 
 // Initialize button states
 bool left_state = false;
@@ -45,6 +46,18 @@ bool down_state = false;
 bool prev_down = down_state;
 bool up_state = false;
 bool prev_up = up_state;
+
+// Checks if correct time interval has passed to drop block
+void check_auto_drop()
+{
+  if(millis() - last_drop > drop_time)
+  {
+    last_drop = millis();
+    move_bitr_down(board, curr_bitrimino);
+    add_to_board(board, curr_bitrimino);
+  }
+}
+
 
 // Check button states and do stuff if pressed
 void checkLeftButton() {
@@ -164,16 +177,6 @@ void setup() {
   add_to_board(board, curr_bitrimino);
   Serial.println((unsigned int)board[0], BIN);
   Serial.println((unsigned int)board[1], BIN);
-}
-
-void check_auto_drop()
-{
-  if(millis() - last_drop > 1000)
-  {
-    last_drop = millis();
-    move_bitr_down(board, curr_bitrimino);
-    add_to_board(board, curr_bitrimino);
-  }
 }
 
 void loop() {
