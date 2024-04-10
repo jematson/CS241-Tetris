@@ -101,10 +101,10 @@ void setup() {
   Serial.println("****************");
   Serial.println("started up");
   Serial.println("****************");
+
+  // Set pinmodes for shift registers and buttons
   begin_shift_reg(dataPin, shiftPin, outputPin);
-  pinMode(left_button, INPUT_PULLUP);
-  pinMode(right_button, INPUT_PULLUP);
-  pinMode(down_button, INPUT_PULLUP);
+  begin_buttons(left_button, right_button, down_button, up_button);
 
   // Create the first bitrimino and add it to the board
   curr_bitrimino = create_bitrimino();
@@ -117,6 +117,7 @@ void loop() {
   checkLeftButton();
   checkRightButton();
   checkDownButton();
+  checkUpButton();
   
   if(right_state || left_state || down_state || up_state) {
     add_to_board(board, curr_bitrimino);

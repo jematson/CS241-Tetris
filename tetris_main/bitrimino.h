@@ -216,3 +216,5 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
   }
   return curr_bitrimino;
 }
+
+

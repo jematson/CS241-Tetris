@@ -13,6 +13,14 @@ bool prev_down = down_state;
 bool up_state = false;
 bool prev_up = up_state;
 
+void begin_buttons(const int left_button, const int right_button, const int down_button, const int up_button)
+{
+  pinMode(left_button, INPUT_PULLUP);
+  pinMode(right_button, INPUT_PULLUP);
+  pinMode(down_button, INPUT_PULLUP);
+  pinMode(up_button, INPUT_PULLUP);
+}
+
 // Check button states and do stuff if pressed
 void checkLeftButton() {
   left_state = !digitalRead(left_button);
