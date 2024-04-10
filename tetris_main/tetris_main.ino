@@ -118,7 +118,7 @@ void loop() {
   checkRightButton();
   checkDownButton();
   
-  if(right_state || left_state || down_state) {
+  if(right_state || left_state || down_state || up_state) {
     add_to_board(board, curr_bitrimino);
   }
   checkCollision();

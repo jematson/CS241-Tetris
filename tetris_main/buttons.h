@@ -44,3 +44,13 @@ void checkDownButton() {
   prev_down = down_state;
   delay(1);
 }
+void checkUpButton() {
+  up_state = !digitalRead(up_button);
+
+  if(up_state && up_state != prev_up) {
+    //hard_drop();
+    up_state = true;
+  }
+  prev_up = up_state;
+  delay(1);
+}
