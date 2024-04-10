@@ -1,6 +1,7 @@
 /*
 TODO
-- hard drop
+
+- visual cue/animation when row clear
 
 - sound effects!
   - play the tetris music

@@ -17,29 +17,6 @@ void check_auto_drop()
   }
 }
 
-bool check_debris_below(Bitrimino& curr_bitrimino) {
-  // remove the bitrimino from the board so it doesn't count itself as debris
-  remove_from_board(board, curr_bitrimino);
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int low_block = curr_bitrimino.pattern[i];
-
-    unsigned int high_bits = get_row_bits(low_block);
-    unsigned int low_bits = get_col_bits(low_block);
-    high_bits = high_bits << 1;
-    // loop through rows of board
-    for(int j = 0; j < 8; j++) {
-      if((high_bits & board[j]) != 0) {
-        if((low_bits & get_col_bits(board[j])) != 0) {
-          add_to_board(board, curr_bitrimino);
-          return true;
-        }
-      }
-    }
-  }
-  add_to_board(board, curr_bitrimino);
-  return false;
-}
-
 void checkCollision() {
   // Reached bottom of board, add to debris and make new bitrimino
   if(check_bottom_edge(curr_bitrimino)) {
@@ -48,7 +25,7 @@ void checkCollision() {
     
     last_drop = millis();
   // Hit debris pile, add to debris and make new bitrimino
-  } else if (check_debris_below(curr_bitrimino)) {
+  } else if (check_debris_below(board, curr_bitrimino)) {
     check_rows();
     curr_bitrimino = create_bitrimino();
     

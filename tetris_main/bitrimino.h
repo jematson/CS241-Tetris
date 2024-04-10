@@ -1,5 +1,5 @@
 #pragma once
-
+#include"config.h"
 // Bitrimino struct
 // Stores bit patterns in array
 struct Bitrimino {
@@ -182,6 +182,29 @@ bool check_bottom_edge(Bitrimino& curr_bitrimino) {
   return false;
 }
 
+bool check_debris_below(unsigned int board[8], Bitrimino& curr_bitrimino) {
+  // remove the bitrimino from the board so it doesn't count itself as debris
+  remove_from_board(board, curr_bitrimino);
+  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+    unsigned int low_block = curr_bitrimino.pattern[i];
+
+    unsigned int high_bits = get_row_bits(low_block);
+    unsigned int low_bits = get_col_bits(low_block);
+    high_bits = high_bits << 1;
+    // loop through rows of board
+    for(int j = 0; j < 8; j++) {
+      if((high_bits & board[j]) != 0) {
+        if((low_bits & get_col_bits(board[j])) != 0) {
+          add_to_board(board, curr_bitrimino);
+          return true;
+        }
+      }
+    }
+  }
+  add_to_board(board, curr_bitrimino);
+  return false;
+}
+
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
   if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 
@@ -217,4 +240,9 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
   return curr_bitrimino;
 }
 
-
+Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
+  while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
+    move_bitr_down(board, curr_bitrimino);
+  }
+  return curr_bitrimino;
+}

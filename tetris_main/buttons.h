@@ -56,7 +56,8 @@ void checkUpButton() {
   up_state = !digitalRead(up_button);
 
   if(up_state && up_state != prev_up) {
-    //hard_drop();
+    curr_bitrimino = hard_drop(board, curr_bitrimino);
+    Serial.println("Up pressed");
     up_state = true;
   }
   prev_up = up_state;
