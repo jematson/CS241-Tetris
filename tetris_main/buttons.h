@@ -57,7 +57,6 @@ void checkUpButton() {
 
   if(up_state && up_state != prev_up) {
     curr_bitrimino = hard_drop(board, curr_bitrimino);
-    Serial.println("Up pressed");
     up_state = true;
   }
   prev_up = up_state;

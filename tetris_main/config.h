@@ -34,3 +34,5 @@ unsigned long slide_duration = 500; // Time player can slide after hitting the g
 
 unsigned long last_drop = millis();
 unsigned long drop_time = 1000; // Time between autodrop intervals in millis
+
+bool loss = false; // True when game is over

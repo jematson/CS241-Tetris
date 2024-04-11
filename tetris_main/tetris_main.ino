@@ -19,6 +19,7 @@ void check_auto_drop()
   }
 }
 
+
 void checkCollision() {
   // Reached bottom of board or hit debris pile
   if(check_bottom_edge(curr_bitrimino) || check_debris_below(board, curr_bitrimino)) {
@@ -35,16 +36,37 @@ void checkCollision() {
 
 }
 
+
+void game_over()
+{
+  Serial.println("Game is over");
+  board[0] = 0b0000000100000000;
+  board[1] = 0b0000001000000000;
+  board[2] = 0b0000010000000000;
+  board[3] = 0b0000100000000000;
+  board[4] = 0b0001000000000000;
+  board[5] = 0b0010000000000000;
+  board[6] = 0b0100000000000000;
+  board[7] = 0b1000000000000000;
+
+}
+
 // Adds the current bitrimino to the debris pile if it is grounded and 
 void attempt_add_to_debris()
 {
    if(grounded == true && millis() - ground_time > drop_time) {
+      if(check_upper_rows(board, curr_bitrimino))
+      {
+        game_over();
+      }
       check_rows();
       curr_bitrimino = create_bitrimino();
     
       last_drop = millis();
    }
 }
+
+
 
 void check_rows() {
   // Loop through rows of board, starting at the bottom

@@ -205,6 +205,19 @@ bool check_debris_below(unsigned int board[8], Bitrimino& curr_bitrimino) {
   return false;
 }
 
+// Checks if the bitr is in upper row
+bool check_upper_rows(unsigned int board[8], Bitrimino& curr_bitrimino)
+{
+  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+    if((bitr_high_bits & 0x0300) != 0) // Checks if bitrimino has an entry in the top two rows of the board
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
   if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 
@@ -244,5 +257,11 @@ Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
   while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
     move_bitr_down(board, curr_bitrimino);
   }
-  return curr_bitrimino;
+  add_to_board(board, curr_bitrimino);
+  if(check_upper_rows())
+  {
+    
+  }
+
+  return create_bitrimino();
 }
