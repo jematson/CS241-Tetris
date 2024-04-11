@@ -1,15 +1,11 @@
 /*
 TODO
 
-- Game over state
-  - game beginning state? press down button to start auto dropping?
+- game beginning state, wait for button press to start auto-drop
 
 - visual cue/animation when row clear
 
-- delay debris placement so you can slide
-
 - sound effects!
-  - play the tetris music
   - fun noise when row clear
 
 - point board
