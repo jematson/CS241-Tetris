@@ -1,5 +1,7 @@
 
-const int soundPin = 7;
+const int soundPin =13;
+const int rowSoundPin = 2;
+const int dropSoundPin = 3;
 
 const int num_notes = 41;
 
@@ -62,6 +64,10 @@ void playBlockDrop() {
 
 void setup() {
   pinMode(soundPin, OUTPUT);
+  pinMode(rowSoundPin, INPUT_PULLUP);
+  pinMode(dropSoundPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(rowSoundPin), playRowClear, FALLING);
+  attachInterrupt(digitalPinToInterrupt(dropSoundPin), playBlockDrop, FALLING);
 }
 
 void loop() {
