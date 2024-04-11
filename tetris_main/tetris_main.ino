@@ -6,10 +6,12 @@
 #include"bitrimino.h"
 #include"config.h"
 
+
+
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()
 {
-  if(millis() - last_drop > drop_time)
+  if(millis() - last_drop > drop_time && !grounded)
   {
     last_drop = millis();
     move_bitr_down(board, curr_bitrimino);
@@ -18,19 +20,30 @@ void check_auto_drop()
 }
 
 void checkCollision() {
-  // Reached bottom of board, add to debris and make new bitrimino
-  if(check_bottom_edge(curr_bitrimino)) {
-    check_rows();
-    curr_bitrimino = create_bitrimino();
-    
-    last_drop = millis();
-  // Hit debris pile, add to debris and make new bitrimino
-  } else if (check_debris_below(board, curr_bitrimino)) {
-    check_rows();
-    curr_bitrimino = create_bitrimino();
-    
-    last_drop = millis();
+  // Reached bottom of board or hit debris pile
+  if(check_bottom_edge(curr_bitrimino) | check_debris_below(board, curr_bitrimino)) {
+    if(grounded == false)
+    {
+      ground_time = millis();
+    }
+    grounded = true;
+  } 
+  // Resets grounded state if bitrimino no longer has debris/ground below it
+  else { 
+    grounded = false;
   }
+
+}
+
+// Adds the current bitrimino to the debris pile if it is grounded and 
+void attempt_add_to_debris()
+{
+   if(grounded == true && millis() - ground_time > drop_time) {
+      check_rows();
+      curr_bitrimino = create_bitrimino();
+    
+      last_drop = millis();
+   }
 }
 
 void check_rows() {
@@ -89,6 +102,7 @@ void setup() {
 }
 
 void loop() {
+  attempt_add_to_debris();
   check_auto_drop();
   display_board(board);
   checkLeftButton();
