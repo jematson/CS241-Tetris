@@ -17,7 +17,7 @@ void setup() {
   // Set pinmodes for shift registers and buttons
   begin_shift_reg(dataPin, shiftPin, outputPin);
   begin_buttons(left_button, right_button, down_button, up_button);
-  pinMode(soundPin, OUTPUT);
+
 
   // Create the first bitrimino and add it to the board
   curr_bitrimino = create_bitrimino();

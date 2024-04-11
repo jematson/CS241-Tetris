@@ -12,9 +12,7 @@ const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
 
-//Sound comms pins
-const int row_sound_pin = 6;
-const int drop_sound_pin = 5;
+
 
 // Starting game state, empty board, 0 points
 Bitrimino curr_bitrimino;
