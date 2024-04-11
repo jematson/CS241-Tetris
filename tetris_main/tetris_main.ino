@@ -6,7 +6,6 @@
 #include"bitrimino.h"
 #include"config.h"
 #include"board.h"
-#include"music.h"
 
 void setup() {
   randomSeed(analogRead(A0));

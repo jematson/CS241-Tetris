@@ -2,8 +2,7 @@
 
 #include"config.h"
 #include"bitrimino.h"
-#include"music.h"
-
+#include"sound_comm.h"
 
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()

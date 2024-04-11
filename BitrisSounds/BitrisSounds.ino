@@ -1,6 +1,8 @@
 
 const int soundPin = 7;
 
+const int num_notes = 41;
+
 // Arrays of notes and durations taken from blog "Musings of a Fondue"
 // https://www.jk-quantized.com/blog/2013/11/22/tetris-theme-song-using-processing
 int noteDuration[num_notes] = {

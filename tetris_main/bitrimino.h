@@ -1,6 +1,6 @@
 #pragma once
 #include"config.h"
-#include"music.h"
+#include"sound_comm.h"
 // Bitrimino struct
 // Stores bit patterns in array
 struct Bitrimino {
