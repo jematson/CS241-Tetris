@@ -21,7 +21,7 @@ void check_auto_drop()
 
 void checkCollision() {
   // Reached bottom of board or hit debris pile
-  if(check_bottom_edge(curr_bitrimino) | check_debris_below(board, curr_bitrimino)) {
+  if(check_bottom_edge(curr_bitrimino) || check_debris_below(board, curr_bitrimino)) {
     if(grounded == false)
     {
       ground_time = millis();
