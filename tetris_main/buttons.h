@@ -45,7 +45,7 @@ void checkRightButton() {
 void checkDownButton() {
   down_state = !digitalRead(down_button);
 
-  if(down_state && down_state != prev_down) {
+  if(down_state && down_state != prev_down && !grounded) {
     curr_bitrimino = move_bitr_down(board, curr_bitrimino);
     down_state = true;
   }
