@@ -1,6 +1,9 @@
 /*
 TODO
 
+- Game over state
+  - game beginning state? press down button to start auto dropping?
+
 - visual cue/animation when row clear
 
 - delay debris placement so you can slide
