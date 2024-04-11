@@ -39,7 +39,7 @@ void playNote(int frequencyHz,int durationMs)
   }
   digitalWrite(soundPin,LOW);
 }
-
+/*
 void setup() {
   pinMode(soundPin, OUTPUT);
 
@@ -52,3 +52,4 @@ void loop() {
   }
   delay(20);
 }
+*/

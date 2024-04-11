@@ -258,7 +258,7 @@ Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
     move_bitr_down(board, curr_bitrimino);
   }
   add_to_board(board, curr_bitrimino);
-  if(check_upper_rows())
+  if(check_upper_rows(board, curr_bitrimino))
   {
     
   }
