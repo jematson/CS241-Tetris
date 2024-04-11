@@ -1,5 +1,6 @@
 #pragma once
 #include"config.h"
+#include"music.h"
 // Bitrimino struct
 // Stores bit patterns in array
 struct Bitrimino {
@@ -257,6 +258,7 @@ Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
   while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
     move_bitr_down(board, curr_bitrimino);
   }
+  playBlockDrop();
   add_to_board(board, curr_bitrimino);
 
   return create_bitrimino();

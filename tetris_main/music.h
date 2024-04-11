@@ -1,6 +1,9 @@
+#pragma once
 // Bitris background music, "Korobeiniki"
+#include"config.h"
 
-const int soundPin = 7;
+//music pin
+const int soundPin = 6;
 
 const int num_notes = 41;
 
@@ -30,26 +33,33 @@ void playNote(int frequencyHz,int durationMs)
 {
   int cycleTimeUS=long(1000000)/frequencyHz;
   int delayTimeUS=cycleTimeUS/2-digitalWriteUS;
-  digitalWrite(soundPin,LOW);
+  digitalWrite(soundPin, 0);
   bool bounce=true;
   int cycles=2*(durationMs*long(1000))/cycleTimeUS;
   for (int i=0;i<cycles;i++) {
     digitalWrite(soundPin,bounce); bounce=!bounce;
     delayMicroseconds(delayTimeUS);
   }
-  digitalWrite(soundPin,LOW);
-}
-/*
-void setup() {
-  pinMode(soundPin, OUTPUT);
-
+  digitalWrite(soundPin, 0);
 }
 
-void loop() {
+void playRowClear() {
+  playNote(493, 100);
+  delay(1);
+  playNote(493, 100);
+  delay(5);
+  playNote(1396, 100);
+}
 
+void playBlockDrop() {
+  playNote(500, 30);
+  playNote(2000, 30);
+  playNote(500, 50);
+}
+
+void playKorobeiniki() {
   for(int i = 0; i < num_notes ; i++) {
     playNote(rawSequence[i], noteDuration[i]);
   }
   delay(20);
 }
-*/
