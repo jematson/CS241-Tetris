@@ -42,6 +42,7 @@ void game_over()
   board[6] = 0b0100000000000000;
   board[7] = 0b1000000000000000;
 
+  points = 0;
 }
 
 void remove_row(int row) {
