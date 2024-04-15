@@ -1,6 +1,7 @@
-// Bitris background music, "Korobeiniki"
 
-const int soundPin = 7;
+const int soundPin =13;
+const int rowSoundPin = 2;
+const int dropSoundPin = 3;
 
 const int num_notes = 41;
 
@@ -20,9 +21,6 @@ int rawSequence[num_notes] = {
     523, 587, 659, 523, 440, 440, 0
 };
 
-// playNote function from Dr. Lawlor
-// Time in microseconds for a digitalWrite,
-//  delayMicroseconds, and loop.
 int digitalWriteUS=4;
 
 // Play this note, in Hz, for this many milliseconds
@@ -39,17 +37,39 @@ void playNote(int frequencyHz,int durationMs)
   }
   digitalWrite(soundPin,LOW);
 }
-/*
-void setup() {
-  pinMode(soundPin, OUTPUT);
 
-}
-
-void loop() {
-
+// Play the main theme song
+void playKorobeiniki() {
   for(int i = 0; i < num_notes ; i++) {
     playNote(rawSequence[i], noteDuration[i]);
   }
   delay(20);
 }
-*/
+
+// Play the row clear sound effect
+void playRowClear() {
+  playNote(493, 100);
+  delay(1);
+  playNote(493, 100);
+  delay(5);
+  playNote(1396, 100);
+}
+
+// Play the hard drop sound effect
+void playBlockDrop() {
+  playNote(500, 30);
+  playNote(2000, 30);
+  playNote(500, 50);
+}
+
+void setup() {
+  pinMode(soundPin, OUTPUT);
+  pinMode(rowSoundPin, INPUT_PULLUP);
+  pinMode(dropSoundPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(rowSoundPin), playRowClear, FALLING);
+  attachInterrupt(digitalPinToInterrupt(dropSoundPin), playBlockDrop, FALLING);
+}
+
+void loop() {
+  playKorobeiniki();
+}

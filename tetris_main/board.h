@@ -2,7 +2,7 @@
 
 #include"config.h"
 #include"bitrimino.h"
-
+#include"sound_comm.h"
 
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()
@@ -42,10 +42,11 @@ void game_over()
   board[6] = 0b0100000000000000;
   board[7] = 0b1000000000000000;
 
+  points = 0;
 }
 
 void remove_row(int row) {
-  Serial.println("In remove_row function");
+  playRowClear();
   for(int i=row; i > 0; i--) {
     // replace current row with the row above it.
     board[i] = board[i-1];

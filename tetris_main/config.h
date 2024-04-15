@@ -12,6 +12,8 @@ const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
 
+
+
 // Starting game state, empty board, 0 points
 Bitrimino curr_bitrimino;
 

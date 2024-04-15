@@ -18,6 +18,7 @@ void setup() {
   begin_shift_reg(dataPin, shiftPin, outputPin);
   begin_buttons(left_button, right_button, down_button, up_button);
 
+
   // Create the first bitrimino and add it to the board
   curr_bitrimino = create_bitrimino();
   add_to_board(board, curr_bitrimino);
