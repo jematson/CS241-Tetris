@@ -25,15 +25,20 @@ void setup() {
 }
 
 void loop() {
-  attempt_add_to_debris();
-  check_auto_drop();
-  display_board(board);
 
   checkLeftButton();
   checkRightButton();
   checkDownButton();
   checkUpButton();
-  
+
+  if(!start_state)
+  {
+    attempt_add_to_debris();
+    check_auto_drop();
+
+    checkCollision();
+  }
+
   add_to_board(board, curr_bitrimino);
-  checkCollision();
+  display_board(board);
 }

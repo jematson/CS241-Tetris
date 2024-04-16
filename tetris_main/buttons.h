@@ -29,6 +29,7 @@ void checkLeftButton() {
   if(left_state && left_state != prev_left) {
     curr_bitrimino = move_bitr_left(board, curr_bitrimino);
     left_state = true;
+    start_state = false;
   }
   prev_left = left_state;
   delay(1);
@@ -39,6 +40,7 @@ void checkRightButton() {
   if(right_state && right_state != prev_right) {
     curr_bitrimino = move_bitr_right(board, curr_bitrimino);
     right_state = true;
+    start_state = false;
   }
   prev_right = right_state;
   delay(1);
@@ -49,6 +51,7 @@ void checkDownButton() {
   if(down_state && down_state != prev_down && !grounded) {
     curr_bitrimino = move_bitr_down(board, curr_bitrimino);
     down_state = true;
+    start_state = false;
   }
   prev_down = down_state;
   delay(1);
@@ -60,6 +63,7 @@ void checkUpButton() {
     curr_bitrimino = hard_drop(board, curr_bitrimino);
     check_rows();
     up_state = true;
+    start_state = false;
   }
   prev_up = up_state;
   delay(1);

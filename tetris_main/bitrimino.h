@@ -232,8 +232,6 @@ bool check_middle_cols(unsigned int board[8], Bitrimino& curr_bitrimino)
   return false;
 }
 
-// 0b0000 0000 0001 1000
-
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
   if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 

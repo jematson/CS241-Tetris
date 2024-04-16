@@ -43,6 +43,7 @@ void game_over()
   board[7] = 0b1000000000000000;
 
   points = 0;
+  start_state = true;
 }
 
 void remove_row(int row) {
