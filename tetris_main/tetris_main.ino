@@ -22,6 +22,7 @@ void setup() {
   // Create the first bitrimino and add it to the board
   curr_bitrimino = create_bitrimino();
   add_to_board(board, curr_bitrimino);
+  playRowClear();
 }
 
 void loop() {
