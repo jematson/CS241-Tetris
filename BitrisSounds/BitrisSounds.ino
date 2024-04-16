@@ -48,6 +48,7 @@ void playKorobeiniki() {
 
 // Play the row clear sound effect
 void playRowClear() {
+  Serial.println("PlayingRowClear");
   playNote(493, 100);
   delay(1);
   playNote(493, 100);
@@ -57,12 +58,15 @@ void playRowClear() {
 
 // Play the hard drop sound effect
 void playBlockDrop() {
+  Serial.println("Playing Block Drop");
   playNote(500, 30);
   playNote(2000, 30);
   playNote(500, 50);
 }
 
 void setup() {
+  Serial.begin(57600);
+  Serial.println("***********\n    Startup   \n***********");
   pinMode(soundPin, OUTPUT);
   pinMode(rowSoundPin, INPUT_PULLUP);
   pinMode(dropSoundPin, INPUT_PULLUP);
@@ -71,5 +75,5 @@ void setup() {
 }
 
 void loop() {
-  //playKorobeiniki();
+ //playKorobeiniki();
 }
