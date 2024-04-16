@@ -38,4 +38,4 @@ unsigned long last_drop = millis();
 unsigned long drop_time = 1000; // Time between autodrop intervals in millis
 
 bool start_state = true; //Game stalls until a button is pressed
-bool loss = false; // True when game is over
+  bool loss = false; // True when game is over
