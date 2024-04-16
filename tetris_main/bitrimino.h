@@ -210,7 +210,7 @@ bool check_debris_below(unsigned int board[8], Bitrimino& curr_bitrimino) {
 bool check_upper_rows(unsigned int board[8], Bitrimino& curr_bitrimino)
 {
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+  unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
     if((bitr_high_bits & 0x0300) != 0) // Checks if bitrimino has an entry in the top two rows of the board
     {
       return true;
@@ -218,6 +218,21 @@ bool check_upper_rows(unsigned int board[8], Bitrimino& curr_bitrimino)
   }
   return false;
 }
+
+// Checks if bitr is in the middle cols
+bool check_middle_cols(unsigned int board[8], Bitrimino& curr_bitrimino)
+{
+  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+  unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
+    if((bitr_low_bits & 0x0018) != 0) // Checks if bitrimino has an entry in the top two rows of the board
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+// 0b0000 0000 0001 1000
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
 Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
