@@ -12,4 +12,6 @@ TODO
   - 1 point per row cleared
   - extra points for clearing 2 rows, and for clearing entire board
 
+-BUGS:
+  -Can sometimes force bitr into block to the left if you really try in the center col
 */
