@@ -29,6 +29,12 @@ unsigned int board[8] {
 };
 
 int points = 0;
+unsigned int points_patterns[4] {
+  0b1111000111111100,
+  0b1111001011111100, 
+  0b1111010011111100, 
+  0b1111100011111100  
+};
 
 bool grounded = false; // Stores wether the bitrimino is on the ground or not
 unsigned long ground_time = 0; // Stores the time when the player touched the ground

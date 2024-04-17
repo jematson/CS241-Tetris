@@ -12,8 +12,8 @@ typedef enum {
 // gives names to each bit in 12-bit pattern
 // 0b00004321ABCDEFGd
 typedef enum {
-  dot = 0, G, F, E, D, C, B, A,
-  d1 = 8, d2, d3, d4
+  dot = 0, G, F, E, D, C, B, A, // segments of a digit
+  d1 = 8, d2, d3, d4            // digits on board
 } ds_t;
 
 // Set up the shift register pins (call from setup)
@@ -102,7 +102,7 @@ void send_pattern(unsigned int board_pattern, unsigned int point_pattern, int de
   unsigned int raw_board_pattern = 0b1111111100000000 ^ board_pattern; // rows are 0 to be lit
   unsigned int raw_point_pattern = 0b1111111100000000 ^ point_pattern;
   send_to_shift_reg(raw_board_pattern, raw_point_pattern);
-  delayMicroseconds(delay);
+  //delayMicroseconds(delay);
   unsigned int zero_pattern1 = 0b1111111100000000;
   unsigned int zero_pattern2 = 0b0000000000000000;
   send_to_shift_reg(zero_pattern1, zero_pattern2);
