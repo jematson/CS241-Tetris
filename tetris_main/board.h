@@ -89,7 +89,7 @@ void attempt_add_to_debris()
    }
 }
 
-void display_board(unsigned int board[8]) {
+void display_board(unsigned int board[8], int points) {
   send_pattern(board[0], 1);
   send_pattern(board[1], 1);
   send_pattern(board[2], 1);
