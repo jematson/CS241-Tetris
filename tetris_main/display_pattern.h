@@ -3,13 +3,14 @@
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
 
-// This gives names to each bit from the 16-bit pattern
+// This gives names to each bit from the 16-bit pattern for the game board
+// 0b7654321076543210
 typedef enum {
  c0 = 0, c1, c2, c3, c4, c5, c6, c7, // columns are low 8 bits
  r0 = 8, r1, r2, r3, r4, r5, r6, r7  // rows are high 8 bits
 } rc_t;
 
-// gives names to each bit in 12-bit pattern
+// This gives names to each bit from the 16-bit pattern for the pointboard
 // 0b00004321ABCDEFGd
 typedef enum {
   dot = 0, G, F, E, D, C, B, A, // segments of a digit
@@ -48,7 +49,7 @@ void send_bit_to_shift_reg(int bit)
   digitalWrite(shiftPin,1);
 }
 
-// 595 expects 16 bits: the 8 bottom pins and 8 top pins of the 8x8 LED matrix
+// 595s expect 32 bits: 16 pins for 7-segment led display, 16 pins for 8x8 led display
 void send_to_shift_reg(unsigned int board_pattern, unsigned int point_pattern)
 {
   // Point Board Pins

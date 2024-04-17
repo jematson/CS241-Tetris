@@ -70,13 +70,12 @@ void check_rows() {
       // If row cleared, add a point and display
       points ++;
       update_points_patterns();
+      Serial.print("Points: ");
       Serial.println(points);
       Serial.println(points_patterns[0], BIN);
       Serial.println(points_patterns[1], BIN);
       Serial.println(points_patterns[2], BIN);
       Serial.println(points_patterns[3], BIN);
-      Serial.print("Points: ");
-      Serial.println(points);
     }
   }
 }
@@ -98,11 +97,11 @@ void attempt_add_to_debris()
 
 void display_board(unsigned int board[8]) {
   send_pattern(board[0], points_patterns[0], 1);
-  send_pattern(board[1], points_patterns[1], 1);
-  send_pattern(board[2], points_patterns[2], 1);
-  send_pattern(board[3], points_patterns[3], 1);
-  send_pattern(board[4], points_patterns[0], 1);
-  send_pattern(board[5], points_patterns[1], 1);
-  send_pattern(board[6], points_patterns[2], 1);
+  send_pattern(board[1], points_patterns[0], 1);
+  send_pattern(board[2], points_patterns[1], 1);
+  send_pattern(board[3], points_patterns[1], 1);
+  send_pattern(board[4], points_patterns[2], 1);
+  send_pattern(board[5], points_patterns[2], 1);
+  send_pattern(board[6], points_patterns[3], 1);
   send_pattern(board[7], points_patterns[3], 1);
 }
