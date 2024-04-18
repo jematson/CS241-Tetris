@@ -33,6 +33,7 @@ void loop() {
 
   if(!start_state)
   {
+    update_points_patterns();
     attempt_add_to_debris();
     check_auto_drop();
 

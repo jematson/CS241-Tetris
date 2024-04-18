@@ -69,13 +69,8 @@ void check_rows() {
       remove_row(i);
       // If row cleared, add a point and display
       points ++;
-      update_points_patterns();
       Serial.print("Points: ");
       Serial.println(points);
-      Serial.println(points_patterns[0], BIN);
-      Serial.println(points_patterns[1], BIN);
-      Serial.println(points_patterns[2], BIN);
-      Serial.println(points_patterns[3], BIN);
     }
   }
 }
