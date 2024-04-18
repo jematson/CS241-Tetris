@@ -26,7 +26,6 @@ void setup() {
 }
 
 void loop() {
-
   checkLeftButton();
   checkRightButton();
   checkDownButton();
