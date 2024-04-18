@@ -1,59 +1,53 @@
 #pragma once
 
-// Pins for digits 1-4
-const int digitArray[] = {10, 11, 12, 13};
-const int digitLength = 4;
-/*
-1 = 10
-2 = 11
-3 = 12
-4 = 13
-*/
-
-// LED Segment Pins
-const int pinArray[] = {8,7,5,3,4,9,6,2};
-const int pinLength = 8;
-/*
-2 = Dot
-3 = D
-4 = E
-5 = C
-6 = G
-7 = B
-8 = A
-9 = F
-*/
+#include"config.h"
 
 // Symbol Lookup Table
 const int symbols = 10;
-const int symbol[symbols][8] =
+const unsigned int symbolTable[symbols] =
 {
-  {1,1,1,1,1,1,0,0},  //0
-  {0,1,1,0,0,0,0,0},  //1
-  {1,1,0,1,1,0,1,0},  //2
-  {1,1,1,1,0,0,1,0},  //3
-  {0,1,1,0,0,1,1,0},  //4
-  {1,0,1,1,0,1,1,0},  //5
-  {1,0,1,1,1,1,1,0},  //6
-  {1,1,1,0,0,0,0,0},  //7
-  {1,1,1,1,1,1,1,0},  //8
-  {1,1,1,0,0,1,1,0},  //9
+  0b0000000011111100,  //0
+  0b0000000001100000,  //1
+  0b0000000011011010,  //2
+  0b0000000011110010,  //3
+  0b0000000001100110,  //4
+  0b0000000010110110,  //5
+  0b0000000010111110,  //6
+  0b0000000011100000,  //7
+  0b0000000011111110,  //8
+  0b0000000011100110,  //9
 };
 
-const int delayMS = 1;
-void showSymbol(int S)
+const int digits = 4;
+const unsigned int digitTable[digits] =
 {
-  for(int i = 0; i < pinLength; i++)
-  {
-    digitalWrite(pinArray[i], symbol[S][i]);
+  0b1111000100000000, // 1st digit
+  0b1111001000000000, // 2nd digit
+  0b1111010000000000, // 3rd digit
+  0b1111100000000000 // 4th digit
+};
+
+// Make a symbol pattern of the form
+// 0b00004321ABCDEFGd
+// from a given digit and symbol
+unsigned int make_symbol_pattern(int digit, int symbol) {
+  unsigned int digit_pattern = digitTable[digit - 1];
+
+  unsigned int symbol_pattern = symbolTable[symbol];
+
+  return digit_pattern | symbol_pattern;
+}
+
+void update_points_patterns() {
+  int dig1 = (points / 1000) % 10;
+  int dig2 = (points / 100) % 10;
+  int dig3 = (points / 10) % 10;
+  int dig4 = points % 10;
+  
+  int pointArray[] = {dig1, dig2, dig3, dig4};
+
+  for(int i = 1; i < 5; ++i) {
+    unsigned int pattern = make_symbol_pattern(i, pointArray[i-1]);
+    points_patterns[i-1] = pattern;
   }
 }
-
-void showDigit(int digit, int symbol)
-{
-  showSymbol(symbol);
-  digitalWrite(digitArray[digit], LOW);
-  delay(delayMS);
-  digitalWrite(digitArray[digit], HIGH);
-}
-

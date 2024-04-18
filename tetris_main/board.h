@@ -3,6 +3,7 @@
 #include"config.h"
 #include"bitrimino.h"
 #include"sound_comm.h"
+#include"pointboard.h"
 
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()
@@ -68,8 +69,13 @@ void check_rows() {
       remove_row(i);
       // If row cleared, add a point and display
       points ++;
+      update_points_patterns();
       Serial.print("Points: ");
       Serial.println(points);
+      Serial.println(points_patterns[0], BIN);
+      Serial.println(points_patterns[1], BIN);
+      Serial.println(points_patterns[2], BIN);
+      Serial.println(points_patterns[3], BIN);
     }
   }
 }
@@ -90,12 +96,12 @@ void attempt_add_to_debris()
 }
 
 void display_board(unsigned int board[8]) {
-  send_pattern(board[0], 1);
-  send_pattern(board[1], 1);
-  send_pattern(board[2], 1);
-  send_pattern(board[3], 1);
-  send_pattern(board[4], 1);
-  send_pattern(board[5], 1);
-  send_pattern(board[6], 1);
-  send_pattern(board[7], 1);
+  send_pattern(board[0], points_patterns[0], 1);
+  send_pattern(board[1], points_patterns[0], 1);
+  send_pattern(board[2], points_patterns[1], 1);
+  send_pattern(board[3], points_patterns[1], 1);
+  send_pattern(board[4], points_patterns[2], 1);
+  send_pattern(board[5], points_patterns[2], 1);
+  send_pattern(board[6], points_patterns[3], 1);
+  send_pattern(board[7], points_patterns[3], 1);
 }
