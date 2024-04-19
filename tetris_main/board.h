@@ -80,12 +80,6 @@ void check_rows() {
 void attempt_add_to_debris()
 {
    if(grounded == true && millis() - ground_time > drop_time) {
-    /*
-      if(check_upper_rows(board, curr_bitrimino) && check_middle_cols(board, curr_bitrimino))
-      {
-        game_over();
-      }
-    */
       check_rows();
       curr_bitrimino = create_bitrimino(board);
     
