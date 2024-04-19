@@ -7,6 +7,8 @@
 #include"config.h"
 #include"board.h"
 
+
+
 void setup() {
   randomSeed(analogRead(A0));
   Serial.begin(57600);
@@ -20,7 +22,7 @@ void setup() {
   begin_sound_pins();
 
   // Create the first bitrimino and add it to the board
-  curr_bitrimino = create_bitrimino();
+  curr_bitrimino = create_bitrimino(board);
   add_to_board(board, curr_bitrimino);
   playRowClear();
 }
@@ -38,6 +40,10 @@ void loop() {
     check_auto_drop();
 
     checkCollision();
+    if(loss)
+    {
+      game_over();
+    }
   }
 
   add_to_board(board, curr_bitrimino);

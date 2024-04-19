@@ -3,9 +3,9 @@
 #include"sound_comm.h"
 // Bitrimino struct
 // Stores bit patterns in array
-struct Bitrimino {
-  unsigned int pattern[2];
-};
+
+
+
 
 // Define Bitrimino Types
 // Horizontal Bitrimino
@@ -17,19 +17,6 @@ Bitrimino bitrimino_f = { .pattern = {0b0000001000001000, 0b0000000100010000} };
 // Back Diagonal Bitrimino
 Bitrimino bitrimino_b = { .pattern = {0b0000001000010000, 0b0000000100001000} };
 
-Bitrimino create_bitrimino() {
-  switch(random(1, 5)) {
-    case 1:
-      return bitrimino_h;
-    case 2:
-      return bitrimino_v;
-    case 3:
-      return bitrimino_f;
-    case 4:
-      return bitrimino_b; 
-  }
-}
-
 // Return high bits (rows) from a bit pattern
 unsigned int get_row_bits(unsigned int pattern) {
   return pattern & 0xFF00;
@@ -38,6 +25,47 @@ unsigned int get_row_bits(unsigned int pattern) {
 unsigned int get_col_bits(unsigned int pattern) {
   return pattern & 0x00FF;
 }
+
+// Return the number of bit patterns a Bitrimino object has (1 or 2)
+int num_patterns(Bitrimino bitrimino) {
+  return sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
+}
+
+
+Bitrimino create_bitrimino(unsigned int board[8]) {
+  Bitrimino new_bitr;
+  switch(random(1, 5)) {
+    case 1:
+      new_bitr = bitrimino_h;
+      break;
+    case 2:
+      new_bitr =  bitrimino_v;
+      break;
+    case 3:
+      new_bitr =  bitrimino_f;
+      break;
+    case 4:
+      new_bitr =  bitrimino_b; 
+      break;
+  }
+
+  // Get top two rows of the board
+  unsigned int board_top_row = get_col_bits(board[0]);
+  unsigned int board_sec_row = get_col_bits(board[1]);
+
+  // Check if the bitrimino is overlapping with anything in the top two rows
+  for (int i=0; i < num_patterns(new_bitr); i++) {
+    unsigned int bitr_low_bits = get_col_bits(new_bitr.pattern[i]);
+    if(((bitr_low_bits & board_top_row) != 0) || ((bitr_low_bits & board_sec_row) != 0))
+    {
+      loss = true;
+    }
+  }
+
+  return new_bitr;;
+}
+
+
 
 // Shift the col bits of a bit pattern to move right on the board
 unsigned int shift_cols_right(unsigned int pattern) {
@@ -91,10 +119,6 @@ unsigned int shift_rows_down(unsigned int pattern) {
   return newPattern;
 }
 
-// Return the number of bit patterns a Bitrimino object has (1 or 2)
-int num_patterns(Bitrimino bitrimino) {
-  return sizeof(bitrimino.pattern) / sizeof(bitrimino.pattern[0]);
-}
 
 // Add the given Bitrimino object to the board
 void add_to_board(unsigned int board[8], Bitrimino& bitrimino) {
@@ -274,5 +298,5 @@ Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
   playBlockDrop();
   add_to_board(board, curr_bitrimino);
 
-  return create_bitrimino();
+  return create_bitrimino(board);
 }

@@ -1,5 +1,7 @@
 #pragma once
-#include"bitrimino.h"
+
+
+bool loss = false; // True when game is over
 
 // Button pins
 const int left_button = 10;
@@ -12,8 +14,12 @@ const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
 
+struct Bitrimino {
+  unsigned int pattern[2];
+};
 // Starting game state
 Bitrimino curr_bitrimino;
+
 // Empty Game board
 unsigned int board[8] {
   0b0000000100000000,
@@ -43,4 +49,4 @@ unsigned long last_drop = millis();
 unsigned long drop_time = 1000; // Time between autodrop intervals in millis
 
 bool start_state = true; //Game stalls until a button is pressed
-bool loss = false; // True when game is over
+
