@@ -45,6 +45,9 @@ void loop() {
       game_over();
     }
   }
+  else{
+    playBackgroundMusic();
+  }
 
   add_to_board(board, curr_bitrimino);
   display_board(board);
