@@ -50,7 +50,6 @@ void playKorobeiniki() {
 
 // Play the row clear sound effect
 void playRowClear() {
-  Serial.println("PlayingRowClear");
   playNote(493, 100);
   delay(1);
   playNote(493, 100);
@@ -60,7 +59,6 @@ void playRowClear() {
 
 // Play the hard drop sound effect
 void playBlockDrop() {
-  Serial.println("Playing Block Drop");
   playNote(500, 30);
   playNote(2000, 30);
   playNote(500, 50);
@@ -68,12 +66,10 @@ void playBlockDrop() {
 
 // Play the game over sound effect
 void playGameOver() {
-  Serial.println("Playing Block Drop");
-  playNote(300, 30);
-  playNote(2000, 30);
-  playNote(500, 50);
-  playNote(600, 100);
-  
+  playNote(800, 200);
+  playNote(200, 200);
+  playNote(70, 400);
+  delay(1000);
 }
 
 void setup() {
@@ -90,11 +86,9 @@ void setup() {
 
 void loop() {
  if(digitalRead(endSoundPin) == LOW) {
-  Serial.println("playing game over sound");
   playGameOver();
  }
  if(digitalRead(songSoundPin) == LOW) {
-  Serial.println("playing song");
   playKorobeiniki();
  }
 }

@@ -34,6 +34,7 @@ void playBlockDrop() {
 
 void playGameOver() {
   digitalWrite(end_sound_pin, LOW);
+  delay(10);
   digitalWrite(end_sound_pin, HIGH);
 }
 
