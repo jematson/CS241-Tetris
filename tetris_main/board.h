@@ -34,6 +34,8 @@ void checkCollision() {
 void game_over()
 {
   Serial.println("Game is over");
+  playGameOver();
+
   board[0] = 0b0000000100000000;
   board[1] = 0b0000001000000000;
   board[2] = 0b0000010000000000;

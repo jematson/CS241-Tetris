@@ -2,6 +2,8 @@
 const int soundPin =13;
 const int rowSoundPin = 2;
 const int dropSoundPin = 3;
+const int endSoundPin = 4;
+const int songSoundPin = 5;
 
 const int num_notes = 41;
 
@@ -64,16 +66,35 @@ void playBlockDrop() {
   playNote(500, 50);
 }
 
+// Play the game over sound effect
+void playGameOver() {
+  Serial.println("Playing Block Drop");
+  playNote(300, 30);
+  playNote(2000, 30);
+  playNote(500, 50);
+  playNote(600, 100);
+  
+}
+
 void setup() {
   Serial.begin(57600);
   Serial.println("***********\n    Startup   \n***********");
   pinMode(soundPin, OUTPUT);
   pinMode(rowSoundPin, INPUT_PULLUP);
   pinMode(dropSoundPin, INPUT_PULLUP);
+  pinMode(endSoundPin, INPUT_PULLUP);
+  pinMode(songSoundPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(rowSoundPin), playRowClear, FALLING);
   attachInterrupt(digitalPinToInterrupt(dropSoundPin), playBlockDrop, FALLING);
 }
 
 void loop() {
- //playKorobeiniki();
+ if(digitalRead(endSoundPin) == LOW) {
+  Serial.println("playing game over sound");
+  playGameOver();
+ }
+ if(digitalRead(songSoundPin) == LOW) {
+  Serial.println("playing song");
+  playKorobeiniki();
+ }
 }

@@ -39,6 +39,9 @@ void loop() {
 
     checkCollision();
   }
+  else{
+    playBackgroundMusic();
+  }
 
   add_to_board(board, curr_bitrimino);
   display_board(board);
