@@ -3,42 +3,40 @@
 #include"data.h"
 
 //Sound comms pins
-const int row_sound_pin = 6;
-const int drop_sound_pin = 5;
-const int end_sound_pin = 4;
-const int song_sound_pin = 3;
+const int rowSoundPin = 6;
+const int dropSoundPin = 5;
+const int endSoundPin = 4;
+const int songSoundPin = 3;
 
 void begin_sound_pins() {
-  pinMode(row_sound_pin, OUTPUT);
-  pinMode(drop_sound_pin, OUTPUT);
-  pinMode(end_sound_pin, OUTPUT);
-  pinMode(song_sound_pin, OUTPUT);
-  digitalWrite(row_sound_pin, HIGH);
-  digitalWrite(drop_sound_pin, HIGH);
-  digitalWrite(end_sound_pin, HIGH);
-  digitalWrite(song_sound_pin, HIGH);
+  pinMode(rowSoundPin, OUTPUT);
+  pinMode(dropSoundPin, OUTPUT);
+  pinMode(endSoundPin, OUTPUT);
+  pinMode(songSoundPin, OUTPUT);
+  digitalWrite(rowSoundPin, HIGH);
+  digitalWrite(dropSoundPin, HIGH);
+  digitalWrite(endSoundPin, HIGH);
+  digitalWrite(songSoundPin, HIGH);
 }
 
-void playRowClear()
+void play_row_clear()
 {
-    digitalWrite(row_sound_pin, LOW);
-    //delay(1);
-    digitalWrite(row_sound_pin, HIGH);
+    digitalWrite(rowSoundPin, LOW);
+    digitalWrite(rowSoundPin, HIGH);
 }
 
-void playBlockDrop() {
-    digitalWrite(drop_sound_pin, LOW);
-    //delay(1);
-    digitalWrite(drop_sound_pin, HIGH);
+void play_block_drop() {
+    digitalWrite(dropSoundPin, LOW);
+    digitalWrite(dropSoundPin, HIGH);
 }
 
-void playGameOver() {
-  digitalWrite(end_sound_pin, LOW);
+void play_game_over() {
+  digitalWrite(endSoundPin, LOW);
   delay(10);
-  digitalWrite(end_sound_pin, HIGH);
+  digitalWrite(endSoundPin, HIGH);
 }
 
-void playBackgroundMusic() {
-  digitalWrite(song_sound_pin, LOW);
-  digitalWrite(song_sound_pin, HIGH);
+void play_background_music() {
+  digitalWrite(songSoundPin, LOW);
+  digitalWrite(songSoundPin, HIGH);
 }

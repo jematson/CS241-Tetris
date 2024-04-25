@@ -16,7 +16,7 @@ void check_auto_drop()
   }
 }
 
-void checkCollision() {
+void check_collision() {
   // Reached bottom of board or hit debris pile
   if(check_bottom_edge(curr_bitrimino) || check_debris_below(board, curr_bitrimino)) {
     if(grounded == false)
@@ -34,7 +34,7 @@ void checkCollision() {
 void game_over()
 {
   Serial.println("Game is over");
-  playGameOver();
+  play_game_over();
 
   board[0] = 0b0000000100000000;
   board[1] = 0b0000001000000000;
@@ -50,7 +50,7 @@ void game_over()
 }
 
 void remove_row(int row) {
-  playRowClear();
+  play_row_clear();
   for(int i=row; i > 0; i--) {
     // replace current row with the row above it.
     board[i] = board[i-1];

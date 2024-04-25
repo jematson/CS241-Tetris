@@ -14,17 +14,17 @@ bool prev_down = down_state;
 bool up_state = false;
 bool prev_up = up_state;
 
-void begin_buttons(const int left_button, const int right_button, const int down_button, const int up_button)
+void begin_buttons(const int leftButton, const int rightButton, const int downButton, const int upButton)
 {
-  pinMode(left_button, INPUT_PULLUP);
-  pinMode(right_button, INPUT_PULLUP);
-  pinMode(down_button, INPUT_PULLUP);
-  pinMode(up_button, INPUT_PULLUP);
+  pinMode(leftButton, INPUT_PULLUP);
+  pinMode(rightButton, INPUT_PULLUP);
+  pinMode(downButton, INPUT_PULLUP);
+  pinMode(upButton, INPUT_PULLUP);
 }
 
 // Check button states and do stuff if pressed
-void checkLeftButton() {
-  left_state = !digitalRead(left_button);
+void check_left_button() {
+  left_state = !digitalRead(leftButton);
 
   if(left_state && left_state != prev_left) {
     curr_bitrimino = move_bitr_left(board, curr_bitrimino);
@@ -34,8 +34,8 @@ void checkLeftButton() {
   prev_left = left_state;
   delay(1);
 }
-void checkRightButton() {
-  right_state = !digitalRead(right_button);
+void check_right_button() {
+  right_state = !digitalRead(rightButton);
 
   if(right_state && right_state != prev_right) {
     curr_bitrimino = move_bitr_right(board, curr_bitrimino);
@@ -45,8 +45,8 @@ void checkRightButton() {
   prev_right = right_state;
   delay(1);
 }
-void checkDownButton() {
-  down_state = !digitalRead(down_button);
+void check_down_button() {
+  down_state = !digitalRead(downButton);
 
   if(down_state && down_state != prev_down && !grounded) {
     curr_bitrimino = move_bitr_down(board, curr_bitrimino);
@@ -56,8 +56,8 @@ void checkDownButton() {
   prev_down = down_state;
   delay(1);
 }
-void checkUpButton() {
-  up_state = !digitalRead(up_button);
+void check_up_button() {
+  up_state = !digitalRead(upButton);
 
   if(up_state && up_state != prev_up) {
     curr_bitrimino = hard_drop(board, curr_bitrimino);

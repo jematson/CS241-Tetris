@@ -2,10 +2,10 @@
 #include"bitrimino.h"
 
 // Button pins
-const int left_button = 10;
-const int right_button = 9;
-const int up_button = 8;
-const int down_button = 7;
+const int leftButton = 10;
+const int rightButton = 9;
+const int upButton = 8;
+const int downButton = 7;
 
 //Shift register pins
 const int dataPin = 11;

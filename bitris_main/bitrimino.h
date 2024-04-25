@@ -1,6 +1,10 @@
+// bitrimino.h
+// Header to define bitriminos and associated functions
+
 #pragma once
 #include"data.h"
 #include"sound_comm.h"
+
 // Bitrimino struct
 // Stores bit patterns in array
 struct Bitrimino {
@@ -17,6 +21,7 @@ Bitrimino bitrimino_f = { .pattern = {0b0000001000001000, 0b0000000100010000} };
 // Back Diagonal Bitrimino
 Bitrimino bitrimino_b = { .pattern = {0b0000001000010000, 0b0000000100001000} };
 
+// Create a new random bitrimino
 Bitrimino create_bitrimino() {
   switch(random(1, 5)) {
     case 1:
@@ -128,7 +133,7 @@ void remove_from_board(unsigned int board[8], Bitrimino& bitrimino) {
 }
 
 // Edge checking for current bitrimino
-// true = hitting edge or debris
+// Returns true if the bitrimino is hitting and edge or debris
 bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
   // remove the bitrimino from the board so it doesn't count itself as debris
   remove_from_board(board, curr_bitrimino);
@@ -142,7 +147,7 @@ bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
       return true;
     } 
     // Check if the bitrimino is running into debris on the right
-    for (int j = 0; j<7; j++) {
+    for (int j = 0; j<8; j++) {
       if((bitr_row_bits & get_row_bits(board[j])) != 0 && ((bitr_col_bits << 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
@@ -163,7 +168,7 @@ bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
       return true;
     }
     // Check if the bitrimino is running into debris on the left
-    for (int j = 0; j<7; j++) {
+    for (int j = 0; j<8; j++) {
       if((bitr_row_bits & get_row_bits(board[j])) != 0 && ((bitr_col_bits >> 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
@@ -271,7 +276,7 @@ Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
   while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
     move_bitr_down(board, curr_bitrimino);
   }
-  playBlockDrop();
+  play_block_drop();
   add_to_board(board, curr_bitrimino);
 
   return create_bitrimino();
