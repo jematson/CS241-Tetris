@@ -4,7 +4,7 @@
 #include"display_pattern.h"
 #include"buttons.h"
 #include"bitrimino.h"
-#include"config.h"
+#include"data.h"
 #include"board.h"
 
 void setup() {

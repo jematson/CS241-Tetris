@@ -1,6 +1,6 @@
 #pragma once
 
-#include"config.h"
+#include"data.h"
 
 // Symbol Lookup Table
 const int symbols = 10;
