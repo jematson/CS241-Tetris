@@ -1,5 +1,7 @@
 // CS 241 Final Project: Bitris Game
 // Jenae Matson and Elliott Lewandowski
+// bitris_main.ino
+//
 
 #include"display_pattern.h"
 #include"buttons.h"
