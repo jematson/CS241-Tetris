@@ -12,10 +12,10 @@ void check_auto_drop()
   {
     last_drop = millis();
     move_bitr_down(board, curr_bitrimino);
-    //add_to_board(board, curr_bitrimino);
   }
 }
 
+// Checks if the bitrimino has reached the bottom of the board or the debris pile
 void check_collision() {
   // Reached bottom of board or hit debris pile
   if(check_bottom_edge(curr_bitrimino) || check_debris_below(board, curr_bitrimino)) {
@@ -31,6 +31,8 @@ void check_collision() {
   }
 }
 
+// Define game over state
+// Reset the board and points
 void game_over()
 {
   Serial.println("Game is over");
@@ -49,6 +51,7 @@ void game_over()
   start_state = true;
 }
 
+// Remove the given row from the board
 void remove_row(int row) {
   play_row_clear();
   for(int i=row; i > 0; i--) {
@@ -61,6 +64,7 @@ void remove_row(int row) {
   board[0] = 0b0000000100000000;
 }
 
+// Check for and remove full rows from the board
 void check_rows() {
   // Loop through rows of board, starting at the bottom
   for(int i = 0; i <= 7; i++) {
@@ -92,6 +96,7 @@ void attempt_add_to_debris()
    }
 }
 
+// Display the board one row at a time
 void display_board(unsigned int board[8]) {
   send_pattern(board[0], points_patterns[0], 1);
   send_pattern(board[1], points_patterns[0], 1);

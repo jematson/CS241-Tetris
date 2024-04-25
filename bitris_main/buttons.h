@@ -14,6 +14,7 @@ bool prev_down = down_state;
 bool up_state = false;
 bool prev_up = up_state;
 
+// Set pinModes for the button pins
 void begin_buttons(const int leftButton, const int rightButton, const int downButton, const int upButton)
 {
   pinMode(leftButton, INPUT_PULLUP);

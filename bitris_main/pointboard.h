@@ -1,8 +1,8 @@
 #pragma once
-
 #include"data.h"
 
 // Symbol Lookup Table
+// Patterns defined for numbers 0-9
 const int symbols = 10;
 const unsigned int symbolTable[symbols] =
 {
@@ -18,6 +18,8 @@ const unsigned int symbolTable[symbols] =
   0b0000000011100110,  //9
 };
 
+// Digit Lookup Table
+// Patterns defined for digits 1-4
 const int digits = 4;
 const unsigned int digitTable[digits] =
 {
@@ -38,6 +40,7 @@ unsigned int make_symbol_pattern(int digit, int symbol) {
   return digit_pattern | symbol_pattern;
 }
 
+// Remake the array of points patterns based on the current number of points
 void update_points_patterns() {
   int dig1 = (points / 1000) % 10;
   int dig2 = (points / 100) % 10;

@@ -12,8 +12,10 @@ const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
 
-// Starting game state
+// ********** Starting game state **********
+
 Bitrimino curr_bitrimino;
+
 // Empty Game board
 unsigned int board[8] {
   0b0000000100000000,
@@ -25,7 +27,8 @@ unsigned int board[8] {
   0b0100000000000000,
   0b1000000000000000
 };
-// Starting points, set patterns to 0000
+
+// Starting points, displays "0000"
 int points = 0;
 unsigned int points_patterns[4]{
   0b0000000111111100,
@@ -35,12 +38,12 @@ unsigned int points_patterns[4]{
 };
 
 
-bool grounded = false; // Stores wether the bitrimino is on the ground or not
+bool grounded = false; // Stores whether the bitrimino is on the ground or not
 unsigned long ground_time = 0; // Stores the time when the player touched the ground
 unsigned long slide_duration = 500; // Time player can slide after hitting the ground
 
 unsigned long last_drop = millis();
 unsigned long drop_time = 1000; // Time between autodrop intervals in millis
 
-bool start_state = true; //Game stalls until a button is pressed
+bool start_state = true; // Game stalls until a button is pressed
 bool loss = false; // True when game is over

@@ -266,12 +266,13 @@ Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
   // remove the bitrimino from the board
   remove_from_board(board, curr_bitrimino);
   for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    // reform row bits
+    // reform the row bits
     curr_bitrimino.pattern[i] = shift_rows_down(curr_bitrimino.pattern[i]);
   }
   return curr_bitrimino;
 }
 
+// Hard drop: immediately move the bitrimino as far down as it can go
 Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
   while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
     move_bitr_down(board, curr_bitrimino);
