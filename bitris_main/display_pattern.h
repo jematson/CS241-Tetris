@@ -1,7 +1,9 @@
-#pragma once
-#include"data.h"
+// display_pattern.h
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
+
+#pragma once
+#include"data.h"
 
 // This gives names to each bit from the 16-bit pattern for the game board
 // 0b7654321076543210

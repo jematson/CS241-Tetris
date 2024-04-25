@@ -1,3 +1,6 @@
+// pointboard.h
+// Header to define functions associated with the pointboard
+
 #pragma once
 #include"data.h"
 

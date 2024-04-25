@@ -1,3 +1,6 @@
+// sound_comm.h
+// Header to define functions related to sound comms with an Arduino Nano
+
 #pragma once
 #include"data.h"
 

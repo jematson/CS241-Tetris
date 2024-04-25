@@ -1,3 +1,6 @@
+// data.h
+// Header for global game data
+
 #pragma once
 #include"bitrimino.h"
 

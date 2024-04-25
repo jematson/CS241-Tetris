@@ -1,5 +1,7 @@
-#pragma once
+// board.h
+// Header to define functions associated with the game board
 
+#pragma once
 #include"data.h"
 #include"bitrimino.h"
 #include"sound_comm.h"

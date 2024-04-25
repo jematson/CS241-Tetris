@@ -1,5 +1,7 @@
-#pragma once
+// buttons.h
+// Header to define functions related to the buttons
 
+#pragma once
 #include"data.h"
 #include"bitrimino.h"
 #include"board.h"
