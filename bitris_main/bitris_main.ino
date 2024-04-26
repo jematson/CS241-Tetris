@@ -28,10 +28,10 @@ void setup() {
 }
 
 void loop() {
-  checkLeftButton();
-  checkRightButton();
-  checkDownButton();
-  checkUpButton();
+  check_left_button();
+  check_right_button();
+  check_down_button();
+  check_up_button();
 
   if(!startState)
   {
@@ -39,7 +39,7 @@ void loop() {
     attempt_add_to_debris();
     check_auto_drop();
 
-    checkCollision();
+    check_collision();
     if(loss)
     {
       game_over();

@@ -15,7 +15,7 @@ void check_auto_drop()
   }
 }
 
-void checkCollision() {
+void check_collision() {
   // Reached bottom of board or hit debris pile
   if(check_bottom_edge(currBitrimino) || check_debris_below(board, currBitrimino)) {
     if(grounded == false)

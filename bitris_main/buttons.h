@@ -23,7 +23,7 @@ void begin_buttons(const int left_button, const int right_button, const int down
 }
 
 // Check button states and do stuff if pressed
-void checkLeftButton() {
+void check_left_button() {
   left_state = !digitalRead(leftButton);
 
   if(left_state && left_state != prev_left) {
@@ -34,7 +34,7 @@ void checkLeftButton() {
   prev_left = left_state;
   delay(1);
 }
-void checkRightButton() {
+void check_right_button() {
   right_state = !digitalRead(rightButton);
 
   if(right_state && right_state != prev_right) {
@@ -45,7 +45,7 @@ void checkRightButton() {
   prev_right = right_state;
   delay(1);
 }
-void checkDownButton() {
+void check_down_button() {
   down_state = !digitalRead(downButton);
 
   if(down_state && down_state != prev_down && !grounded) {
@@ -56,7 +56,7 @@ void checkDownButton() {
   prev_down = down_state;
   delay(1);
 }
-void checkUpButton() {
+void check_up_button() {
   up_state = !digitalRead(upButton);
 
   if(up_state && up_state != prev_up) {
