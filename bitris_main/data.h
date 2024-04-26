@@ -4,10 +4,10 @@
 bool loss = false; // True when game is over
 
 // Button pins
-const int left_button = 10;
-const int right_button = 9;
-const int up_button = 8;
-const int down_button = 7;
+const int leftButton = 10;
+const int rightButton = 9;
+const int upButton = 8;
+const int downButton = 7;
 
 //Shift register pins
 const int dataPin = 11;
@@ -18,7 +18,7 @@ struct Bitrimino {
   unsigned int pattern[2];
 };
 // Starting game state
-Bitrimino curr_bitrimino;
+Bitrimino currBitrimino;
 
 // Empty Game board
 unsigned int board[8] {
@@ -33,7 +33,7 @@ unsigned int board[8] {
 };
 // Starting points, set patterns to 0000
 int points = 0;
-unsigned int points_patterns[4]{
+unsigned int pointsPatterns[4]{
   0b0000000111111100,
   0b0000001011111100, 
   0b0000010011111100, 
@@ -42,11 +42,11 @@ unsigned int points_patterns[4]{
 
 
 bool grounded = false; // Stores wether the bitrimino is on the ground or not
-unsigned long ground_time = 0; // Stores the time when the player touched the ground
-unsigned long slide_duration = 500; // Time player can slide after hitting the ground
+unsigned long groundTime = 0; // Stores the time when the player touched the ground
+unsigned long slideDuration = 500; // Time player can slide after hitting the ground
 
-unsigned long last_drop = millis();
-unsigned long drop_time = 1000; // Time between autodrop intervals in millis
+unsigned long lastDrop = millis();
+unsigned long dropTime = 1000; // Time between autodrop intervals in millis
 
-bool start_state = true; //Game stalls until a button is pressed
+bool startState = true; //Game stalls until a button is pressed
 

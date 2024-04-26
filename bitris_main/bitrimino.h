@@ -153,13 +153,13 @@ void remove_from_board(unsigned int board[8], Bitrimino& bitrimino) {
 
 // Edge checking for current bitrimino
 // true = hitting edge or debris
-bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
+bool check_right_edge(unsigned int board[8], Bitrimino& currBitrimino) {
   // remove the bitrimino from the board so it doesn't count itself as debris
-  remove_from_board(board, curr_bitrimino);
+  remove_from_board(board, currBitrimino);
   // Loop through patterns of Bitrimino
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_col_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+    unsigned int bitr_col_bits = get_col_bits(currBitrimino.pattern[i]);
+    unsigned int bitr_row_bits = get_row_bits(currBitrimino.pattern[i]);
     // Check if current bitrimino is at the right edge of the board
     if((bitr_col_bits & 0x0080) != 0) 
     {
@@ -174,13 +174,13 @@ bool check_right_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
   }
   return false;
 }
-bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
+bool check_left_edge(unsigned int board[8], Bitrimino& currBitrimino) {
   // Remove the bitrimino from the board so it doesn't count itself as debris
-  remove_from_board(board, curr_bitrimino);
+  remove_from_board(board, currBitrimino);
   // Loop through patterns of bitrimino
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_col_bits = get_col_bits(curr_bitrimino.pattern[i]);
-    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+    unsigned int bitr_col_bits = get_col_bits(currBitrimino.pattern[i]);
+    unsigned int bitr_row_bits = get_row_bits(currBitrimino.pattern[i]);
     //Checks if the current bitrimino is on the left edge of the board
     if((bitr_col_bits & 0x0001) != 0) 
     {
@@ -195,9 +195,9 @@ bool check_left_edge(unsigned int board[8], Bitrimino& curr_bitrimino) {
   }
   return false;
 }
-bool check_bottom_edge(Bitrimino& curr_bitrimino) {
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int bitr_row_bits = get_row_bits(curr_bitrimino.pattern[i]);
+bool check_bottom_edge(Bitrimino& currBitrimino) {
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+    unsigned int bitr_row_bits = get_row_bits(currBitrimino.pattern[i]);
     // Check if the bitrimino is at the bottom of the board
     if((bitr_row_bits & 0x8000) != 0)
     {
@@ -207,11 +207,11 @@ bool check_bottom_edge(Bitrimino& curr_bitrimino) {
   return false;
 }
 
-bool check_debris_below(unsigned int board[8], Bitrimino& curr_bitrimino) {
+bool check_debris_below(unsigned int board[8], Bitrimino& currBitrimino) {
   // remove the bitrimino from the board so it doesn't count itself as debris
-  remove_from_board(board, curr_bitrimino);
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-    unsigned int low_block = curr_bitrimino.pattern[i];
+  remove_from_board(board, currBitrimino);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+    unsigned int low_block = currBitrimino.pattern[i];
 
     unsigned int high_bits = get_row_bits(low_block);
     unsigned int low_bits = get_col_bits(low_block);
@@ -220,21 +220,21 @@ bool check_debris_below(unsigned int board[8], Bitrimino& curr_bitrimino) {
     for(int j = 0; j < 8; j++) {
       if((high_bits & board[j]) != 0) {
         if((low_bits & get_col_bits(board[j])) != 0) {
-          add_to_board(board, curr_bitrimino);
+          add_to_board(board, currBitrimino);
           return true;
         }
       }
     }
   }
-  add_to_board(board, curr_bitrimino);
+  add_to_board(board, currBitrimino);
   return false;
 }
 
 // Checks if the bitr is in upper row
-bool check_upper_rows(unsigned int board[8], Bitrimino& curr_bitrimino)
+bool check_upper_rows(unsigned int board[8], Bitrimino& currBitrimino)
 {
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-  unsigned int bitr_high_bits = get_row_bits(curr_bitrimino.pattern[i]);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+  unsigned int bitr_high_bits = get_row_bits(currBitrimino.pattern[i]);
     if((bitr_high_bits & 0x0300) != 0) // Checks if bitrimino has an entry in the top two rows of the board
     {
       return true;
@@ -244,10 +244,10 @@ bool check_upper_rows(unsigned int board[8], Bitrimino& curr_bitrimino)
 }
 
 // Checks if bitr is in the middle cols
-bool check_middle_cols(unsigned int board[8], Bitrimino& curr_bitrimino)
+bool check_middle_cols(unsigned int board[8], Bitrimino& currBitrimino)
 {
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
-  unsigned int bitr_low_bits = get_col_bits(curr_bitrimino.pattern[i]);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
+  unsigned int bitr_low_bits = get_col_bits(currBitrimino.pattern[i]);
     if((bitr_low_bits & 0x0018) != 0) // Checks if bitrimino has an entry in the top two rows of the board
     {
       return true;
@@ -257,46 +257,46 @@ bool check_middle_cols(unsigned int board[8], Bitrimino& curr_bitrimino)
 }
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block right
-Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  if(!check_right_edge(board, curr_bitrimino)) // If not on the edge of the board move 
+Bitrimino move_bitr_right(unsigned int board[8], Bitrimino& currBitrimino) {
+  if(!check_right_edge(board, currBitrimino)) // If not on the edge of the board move 
   {
-    for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+    for (int i=0; i < num_patterns(currBitrimino); i++) {
       // reform the column bits
-      curr_bitrimino.pattern[i] = shift_cols_right(curr_bitrimino.pattern[i]);
+      currBitrimino.pattern[i] = shift_cols_right(currBitrimino.pattern[i]);
     }
   }
-  return curr_bitrimino;
+  return currBitrimino;
 }
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block left
-Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  if(!check_left_edge(board, curr_bitrimino)) // If not on the edge of the board move
+Bitrimino move_bitr_left(unsigned int board[8], Bitrimino& currBitrimino) {
+  if(!check_left_edge(board, currBitrimino)) // If not on the edge of the board move
   {
-    for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+    for (int i=0; i < num_patterns(currBitrimino); i++) {
       // reform the column bits
-      curr_bitrimino.pattern[i] = shift_cols_left(curr_bitrimino.pattern[i]);
+      currBitrimino.pattern[i] = shift_cols_left(currBitrimino.pattern[i]);
     }
   }
-  return curr_bitrimino;
+  return currBitrimino;
 }
 
 // Shift the bit pattern(s) of the given bitrimino so the piece moves one block down
-Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& curr_bitrimino) {
+Bitrimino move_bitr_down(unsigned int board[8], Bitrimino& currBitrimino) {
   // remove the bitrimino from the board
-  remove_from_board(board, curr_bitrimino);
-  for (int i=0; i < num_patterns(curr_bitrimino); i++) {
+  remove_from_board(board, currBitrimino);
+  for (int i=0; i < num_patterns(currBitrimino); i++) {
     // reform row bits
-    curr_bitrimino.pattern[i] = shift_rows_down(curr_bitrimino.pattern[i]);
+    currBitrimino.pattern[i] = shift_rows_down(currBitrimino.pattern[i]);
   }
-  return curr_bitrimino;
+  return currBitrimino;
 }
 
-Bitrimino hard_drop(unsigned int board[8], Bitrimino& curr_bitrimino) {
-  while(!check_bottom_edge(curr_bitrimino) && !check_debris_below(board, curr_bitrimino)) {
-    move_bitr_down(board, curr_bitrimino);
+Bitrimino hard_drop(unsigned int board[8], Bitrimino& currBitrimino) {
+  while(!check_bottom_edge(currBitrimino) && !check_debris_below(board, currBitrimino)) {
+    move_bitr_down(board, currBitrimino);
   }
   play_block_drop();
-  add_to_board(board, curr_bitrimino);
+  add_to_board(board, currBitrimino);
 
   return create_bitrimino(board);
 }
