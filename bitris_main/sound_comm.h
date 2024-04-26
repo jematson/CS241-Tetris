@@ -19,24 +19,24 @@ void begin_sound_pins() {
   digitalWrite(songSoundPin, HIGH);
 }
 
-void playRowClear()
+void play_row_clear()
 {
     digitalWrite(rowSoundPin, LOW);
     digitalWrite(rowSoundPin, HIGH);
 }
 
-void playBlockDrop() {
+void play_block_drop() {
     digitalWrite(dropSoundPin, LOW);
     digitalWrite(dropSoundPin, HIGH);
 }
 
-void playGameOver() {
+void play_game_over() {
   digitalWrite(endSoundPin, LOW);
   delay(10);
   digitalWrite(endSoundPin, HIGH);
 }
 
-void playBackgroundMusic() {
+void play_background_music() {
   digitalWrite(songSoundPin, LOW);
   digitalWrite(songSoundPin, HIGH);
 }

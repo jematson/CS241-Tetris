@@ -24,7 +24,7 @@ void setup() {
   // Create the first bitrimino and add it to the board
   curr_bitrimino = create_bitrimino(board);
   add_to_board(board, curr_bitrimino);
-  playRowClear();
+  play_row_clear();
 }
 
 void loop() {
@@ -46,7 +46,7 @@ void loop() {
     }
   }
   else{
-    playBackgroundMusic();
+    play_background_music();
   }
 
   add_to_board(board, curr_bitrimino);
