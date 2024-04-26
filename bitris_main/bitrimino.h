@@ -1,5 +1,5 @@
 #pragma once
-#include"config.h"
+#include"data.h"
 #include"sound_comm.h"
 // Bitrimino struct
 // Stores bit patterns in array

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "config.h"
+#include "data.h"
 
 //Sound comms pins
 const int row_sound_pin = 6;

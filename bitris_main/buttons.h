@@ -1,6 +1,6 @@
 #pragma once
 
-#include"config.h"
+#include"data.h"
 #include"bitrimino.h"
 #include"board.h"
 
