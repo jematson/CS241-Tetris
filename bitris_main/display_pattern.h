@@ -1,5 +1,5 @@
 #pragma once
-#include"config.h"
+#include"data.h"
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
 

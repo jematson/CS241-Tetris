@@ -1,6 +1,6 @@
 #pragma once
 
-#include"config.h"
+#include"data.h"
 
 // Symbol Lookup Table
 const int symbols = 10;
@@ -48,6 +48,6 @@ void update_points_patterns() {
 
   for(int i = 1; i < 5; ++i) {
     unsigned int pattern = make_symbol_pattern(i, pointArray[i-1]);
-    points_patterns[i-1] = pattern;
+    pointsPatterns[i-1] = pattern;
   }
 }

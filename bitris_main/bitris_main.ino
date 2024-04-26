@@ -4,7 +4,7 @@
 #include"display_pattern.h"
 #include"buttons.h"
 #include"bitrimino.h"
-#include"config.h"
+#include"data.h"
 #include"board.h"
 
 
@@ -18,37 +18,37 @@ void setup() {
 
   // Set pinmodes for shift registers and buttons
   begin_shift_reg(dataPin, shiftPin, outputPin);
-  begin_buttons(left_button, right_button, down_button, up_button);
+  begin_buttons(leftButton, rightButton, downButton, upButton);
   begin_sound_pins();
 
   // Create the first bitrimino and add it to the board
-  curr_bitrimino = create_bitrimino(board);
-  add_to_board(board, curr_bitrimino);
-  playRowClear();
+  currBitrimino = create_bitrimino(board);
+  add_to_board(board, currBitrimino);
+  play_row_clear();
 }
 
 void loop() {
-  checkLeftButton();
-  checkRightButton();
-  checkDownButton();
-  checkUpButton();
+  check_left_button();
+  check_right_button();
+  check_down_button();
+  check_up_button();
 
-  if(!start_state)
+  if(!startState)
   {
     update_points_patterns();
     attempt_add_to_debris();
     check_auto_drop();
 
-    checkCollision();
+    check_collision();
     if(loss)
     {
       game_over();
     }
   }
   else{
-    playBackgroundMusic();
+    play_background_music();
   }
 
-  add_to_board(board, curr_bitrimino);
+  add_to_board(board, currBitrimino);
   display_board(board);
 }
