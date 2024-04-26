@@ -36,11 +36,11 @@ const unsigned int digitTable[digits] =
 // 0b00004321ABCDEFGd
 // from a given digit and symbol
 unsigned int make_symbol_pattern(int digit, int symbol) {
-  unsigned int digit_pattern = digitTable[digit - 1];
+  unsigned int digitPattern = digitTable[digit - 1];
 
-  unsigned int symbol_pattern = symbolTable[symbol];
+  unsigned int symbolPattern = symbolTable[symbol];
 
-  return digit_pattern | symbol_pattern;
+  return digitPattern | symbolPattern;
 }
 
 // Remake the array of points patterns based on the current number of points
@@ -54,6 +54,6 @@ void update_points_patterns() {
 
   for(int i = 1; i < 5; ++i) {
     unsigned int pattern = make_symbol_pattern(i, pointArray[i-1]);
-    points_patterns[i-1] = pattern;
+    pointsPatterns[i-1] = pattern;
   }
 }

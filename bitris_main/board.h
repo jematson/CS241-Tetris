@@ -10,20 +10,20 @@
 // Checks if correct time interval has passed to drop block
 void check_auto_drop()
 {
-  if(millis() - last_drop > drop_time && !grounded)
+  if(millis() - lastDrop > dropTime && !grounded)
   {
-    last_drop = millis();
-    move_bitr_down(board, curr_bitrimino);
+    lastDrop = millis();
+    move_bitr_down(board, currBitrimino);
   }
 }
 
 // Checks if the bitrimino has reached the bottom of the board or the debris pile
 void check_collision() {
   // Reached bottom of board or hit debris pile
-  if(check_bottom_edge(curr_bitrimino) || check_debris_below(board, curr_bitrimino)) {
+  if(check_bottom_edge(currBitrimino) || check_debris_below(board, currBitrimino)) {
     if(grounded == false)
     {
-      ground_time = millis();
+      groundTime = millis();
     }
     grounded = true;
   } 
@@ -50,7 +50,7 @@ void game_over()
   board[7] = 0b1000000000000000;
 
   points = 0;
-  start_state = true;
+  startState = true;
 }
 
 // Remove the given row from the board
@@ -86,26 +86,26 @@ void check_rows() {
 // Adds the current bitrimino to the debris pile if it is grounded and 
 void attempt_add_to_debris()
 {
-   if(grounded == true && millis() - ground_time > drop_time) {
-      if(check_upper_rows(board, curr_bitrimino) && check_middle_cols(board, curr_bitrimino))
+   if(grounded == true && millis() - groundTime > dropTime) {
+      if(check_upper_rows(board, currBitrimino) && check_middle_cols(board, currBitrimino))
       {
         game_over();
       }
       check_rows();
-      curr_bitrimino = create_bitrimino();
+      currBitrimino = create_bitrimino();
     
-      last_drop = millis();
+      lastDrop = millis();
    }
 }
 
 // Display the board one row at a time
 void display_board(unsigned int board[8]) {
-  send_pattern(board[0], points_patterns[0], 1);
-  send_pattern(board[1], points_patterns[0], 1);
-  send_pattern(board[2], points_patterns[1], 1);
-  send_pattern(board[3], points_patterns[1], 1);
-  send_pattern(board[4], points_patterns[2], 1);
-  send_pattern(board[5], points_patterns[2], 1);
-  send_pattern(board[6], points_patterns[3], 1);
-  send_pattern(board[7], points_patterns[3], 1);
+  send_pattern(board[0], pointsPatterns[0], 1);
+  send_pattern(board[1], pointsPatterns[0], 1);
+  send_pattern(board[2], pointsPatterns[1], 1);
+  send_pattern(board[3], pointsPatterns[1], 1);
+  send_pattern(board[4], pointsPatterns[2], 1);
+  send_pattern(board[5], pointsPatterns[2], 1);
+  send_pattern(board[6], pointsPatterns[3], 1);
+  send_pattern(board[7], pointsPatterns[3], 1);
 }

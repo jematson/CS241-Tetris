@@ -34,13 +34,13 @@ void begin_shift_reg(const int dataPin, const int shiftPin, const int outputPin)
    8 rows   8 cols
    7654321076543210
 */
-bool pattern_has_bit(unsigned int raw_pattern, rc_t bit)
+bool pattern_has_bit(unsigned int rawPattern, rc_t bit)
 {
-  return raw_pattern & (1<<bit); // pull out this bit of the pattern
+  return rawPattern & (1<<bit); // pull out this bit of the pattern
 }
-bool pattern_has_bit(unsigned int raw_pattern, ds_t bit)
+bool pattern_has_bit(unsigned int rawPattern, ds_t bit)
 {
-  return raw_pattern & (1<<bit); // pull out this bit of the pattern
+  return rawPattern & (1<<bit); // pull out this bit of the pattern
 }
 
 // Send another bit to the shift register
@@ -52,44 +52,44 @@ void send_bit_to_shift_reg(int bit)
 }
 
 // 595s expect 32 bits: 16 pins for 7-segment led display, 16 pins for 8x8 led display
-void send_to_shift_reg(unsigned int board_pattern, unsigned int point_pattern)
+void send_to_shift_reg(unsigned int boardPattern, unsigned int pointPattern)
 {
   // Point Board Pins
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, B));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, d3));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, d2));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, F));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, A));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, d1));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, B));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, d3));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, d2));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, F));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, A));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, d1));
   send_bit_to_shift_reg(0); // unused
   send_bit_to_shift_reg(0); // unused
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, E));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, D));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, dot));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, C));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, G));
-  send_bit_to_shift_reg(pattern_has_bit(point_pattern, d4));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, E));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, D));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, dot));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, C));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, G));
+  send_bit_to_shift_reg(pattern_has_bit(pointPattern, d4));
   send_bit_to_shift_reg(0); // unused
   send_bit_to_shift_reg(0); // unused
 
   // 8x8 Game Board Pins
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r0));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c3));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c5));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r3));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c0));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r1));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c6));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c7));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r0));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c3));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c5));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r3));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c0));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r1));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c6));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c7));
 
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r4));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r6));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c1));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c2));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r7));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, c4));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r5));
-  send_bit_to_shift_reg(pattern_has_bit(board_pattern, r2));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r4));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r6));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c1));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c2));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r7));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, c4));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r5));
+  send_bit_to_shift_reg(pattern_has_bit(boardPattern, r2));
  
   digitalWrite(outputPin,0);
   digitalWrite(outputPin,1);
@@ -100,13 +100,13 @@ void send_to_shift_reg(unsigned int board_pattern, unsigned int point_pattern)
   for that row or column to be active,
   and 0 for inactive.
 */
-void send_pattern(unsigned int board_pattern, unsigned int point_pattern, int delay)
+void send_pattern(unsigned int boardPattern, unsigned int pointPattern, int delay)
 {
-  unsigned int raw_board_pattern = 0b1111111100000000 ^ board_pattern; // rows are 0 to be lit
-  unsigned int raw_point_pattern = 0b0000000011111111 ^ point_pattern;
-  send_to_shift_reg(raw_board_pattern, raw_point_pattern);
+  unsigned int rawBoardPattern = 0b1111111100000000 ^ boardPattern; // rows are 0 to be lit
+  unsigned int rawPointPattern = 0b0000000011111111 ^ pointPattern;
+  send_to_shift_reg(rawBoardPattern, rawPointPattern);
   delayMicroseconds(delay);
-  unsigned int zero_pattern1 = 0b1111111100000000;
-  unsigned int zero_pattern2 = 0b0000000000000000;
-  send_to_shift_reg(zero_pattern1, zero_pattern2);
+  unsigned int zeroPattern1 = 0b1111111100000000;
+  unsigned int zeroPattern2 = 0b0000000000000000;
+  send_to_shift_reg(zeroPattern1, zeroPattern2);
 }

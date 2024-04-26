@@ -25,8 +25,8 @@ void setup() {
   begin_sound_pins();
 
   // Create the first bitrimino and add it to the board
-  curr_bitrimino = create_bitrimino();
-  add_to_board(board, curr_bitrimino);
+  currBitrimino = create_bitrimino();
+  add_to_board(board, currBitrimino);
 
   // Initialize sound effects
   play_row_clear();
@@ -40,7 +40,7 @@ void loop() {
   check_up_button();
 
   // Game loop
-  if(!start_state)
+  if(!startState)
   {
     update_points_patterns();
     attempt_add_to_debris();
@@ -54,6 +54,6 @@ void loop() {
   }
 
   // Display the board, including the current bitrimino
-  add_to_board(board, curr_bitrimino);
+  add_to_board(board, currBitrimino);
   display_board(board);
 }

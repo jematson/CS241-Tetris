@@ -7,14 +7,14 @@
 #include"board.h"
 
 // Initialize button states
-bool left_state = false;
-bool prev_left = left_state;
-bool right_state = false;
-bool prev_right = right_state;
-bool down_state = false;
-bool prev_down = down_state;
-bool up_state = false;
-bool prev_up = up_state;
+bool leftState = false;
+bool prevLeft = leftState;
+bool rightState = false;
+bool prevRight = rightState;
+bool downState = false;
+bool prevDown = downState;
+bool upState = false;
+bool prevUp = upState;
 
 // Set pinModes for the button pins
 void begin_buttons(const int leftButton, const int rightButton, const int downButton, const int upButton)
@@ -27,47 +27,47 @@ void begin_buttons(const int leftButton, const int rightButton, const int downBu
 
 // Check button states and do stuff if pressed
 void check_left_button() {
-  left_state = !digitalRead(leftButton);
+  leftState = !digitalRead(leftButton);
 
-  if(left_state && left_state != prev_left) {
-    curr_bitrimino = move_bitr_left(board, curr_bitrimino);
-    left_state = true;
-    start_state = false;
+  if(leftState && leftState != prevLeft) {
+    currBitrimino = move_bitr_left(board, currBitrimino);
+    leftState = true;
+    startState = false;
   }
-  prev_left = left_state;
+  prevLeft = leftState;
   delay(1);
 }
 void check_right_button() {
-  right_state = !digitalRead(rightButton);
+  rightState = !digitalRead(rightButton);
 
-  if(right_state && right_state != prev_right) {
-    curr_bitrimino = move_bitr_right(board, curr_bitrimino);
-    right_state = true;
-    start_state = false;
+  if(rightState && rightState != prevRight) {
+    currBitrimino = move_bitr_right(board, currBitrimino);
+    rightState = true;
+    startState = false;
   }
-  prev_right = right_state;
+  prevRight = rightState;
   delay(1);
 }
 void check_down_button() {
-  down_state = !digitalRead(downButton);
+  downState = !digitalRead(downButton);
 
-  if(down_state && down_state != prev_down && !grounded) {
-    curr_bitrimino = move_bitr_down(board, curr_bitrimino);
-    down_state = true;
-    start_state = false;
+  if(downState && downState != prevDown && !grounded) {
+    currBitrimino = move_bitr_down(board, currBitrimino);
+    downState = true;
+    startState = false;
   }
-  prev_down = down_state;
+  prevDown = downState;
   delay(1);
 }
 void check_up_button() {
-  up_state = !digitalRead(upButton);
+  upState = !digitalRead(upButton);
 
-  if(up_state && up_state != prev_up) {
-    curr_bitrimino = hard_drop(board, curr_bitrimino);
+  if(upState && upState != prevUp) {
+    currBitrimino = hard_drop(board, currBitrimino);
     check_rows();
-    up_state = true;
-    start_state = false;
+    upState = true;
+    startState = false;
   }
-  prev_up = up_state;
+  prevUp = upState;
   delay(1);
 }
