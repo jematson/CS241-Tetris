@@ -150,7 +150,7 @@ bool check_right_edge(unsigned int board[8], Bitrimino& currBitrimino) {
       return true;
     } 
     // Check if the bitrimino is running into debris on the right
-    for (int j = 0; j<7; j++) {
+    for (int j = 0; j < 8; j++) {
       if((bitrRows & get_row_bits(board[j])) != 0 && ((bitrCols << 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
@@ -171,7 +171,7 @@ bool check_left_edge(unsigned int board[8], Bitrimino& currBitrimino) {
       return true;
     }
     // Check if the bitrimino is running into debris on the left
-    for (int j = 0; j<7; j++) {
+    for (int j = 0; j < 8; j++) {
       if((bitrRows & get_row_bits(board[j])) != 0 && ((bitrCols >> 1) & get_col_bits(board[j])) != 0) {
         return true;
       }
