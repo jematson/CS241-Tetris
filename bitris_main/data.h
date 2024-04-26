@@ -1,6 +1,5 @@
 #pragma once
 
-
 bool loss = false; // True when game is over
 
 // Button pins
@@ -14,9 +13,12 @@ const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
 
+// Bitrimino struct
+// Stores bit patterns in array
 struct Bitrimino {
   unsigned int pattern[2];
 };
+
 // Starting game state
 Bitrimino currBitrimino;
 
