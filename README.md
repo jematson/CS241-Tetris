@@ -1,5 +1,5 @@
 **Bitris** 
-
+----------
 By Jenae Matson & Elliott Lewandowski 
 
 CS 241 Final Project
