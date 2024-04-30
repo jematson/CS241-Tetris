@@ -3,6 +3,8 @@
 // Elliot Lewandowski & Jenae Matson
 // last updated: 2024-4-30
 // CS 241 Final Project: Bitris
+//  Code to run the game Bitris
+//  on an Arduino Uno.
 // **********************************
 
 
