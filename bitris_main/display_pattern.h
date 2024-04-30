@@ -1,9 +1,23 @@
+// **********************************
+// display_pattern.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for displaying patterns
+//  to the 7-segment LED display and
+//  8x8 LED matrix via 595 shift
+//  registers.
+//  Original code for displaying to
+//  8x8 LED matrix from Dr. Lawlor.
+// **********************************
+
 #pragma once
 #include"data.h"
 // Header file for displaying pattern on 8x8 LED display
 // with two 595 shift registers
 
 // This gives names to each bit from the 16-bit pattern for the game board
+//  high bits  low bits
+//   8 rows   8 cols
 // 0b7654321076543210
 typedef enum {
 
@@ -12,6 +26,8 @@ typedef enum {
 } rc_t;
 
 // This gives names to each bit from the 16-bit pattern for the pointboard
+//  high bits  low bits
+//  4 digits  8 segments
 // 0b00004321ABCDEFGd
 typedef enum {
 
@@ -27,13 +43,7 @@ void begin_shift_reg(const int dataPin, const int shiftPin, const int outputPin)
   pinMode(outputPin,OUTPUT);  
 }
 
-/*
- Pattern is a 16 bit int = 8 rows, 8 columns
- The bits tell you what the rows and columns should be doing:
-  high bits  low bits
-   8 rows   8 cols
-   7654321076543210
-*/
+// Return the value of the given bit in the given pattern
 bool pattern_has_bit(unsigned int raw_pattern, rc_t bit) {
 
   return raw_pattern & (1<<bit); // pull out this bit of the pattern
@@ -96,11 +106,8 @@ void send_to_shift_reg(unsigned int board_pattern, unsigned int point_pattern) {
   digitalWrite(outputPin,1);
 }
 
-/* Show this pattern on the 8x8 LED matrix.  
-  "Nice" pattern bits should be 1
-  for that row or column to be active,
-  and 0 for inactive.
-*/
+// Show the given patterns on the pointboard and gameboard
+// Patterns have 1 for on, 0 for off.
 void send_pattern(unsigned int board_pattern, unsigned int point_pattern, int delay) {
 
   unsigned int raw_board_pattern = 0b1111111100000000 ^ board_pattern; // rows are 0 to be lit

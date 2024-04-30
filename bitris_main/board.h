@@ -1,3 +1,11 @@
+// **********************************
+// board.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for the 8x8 game board
+//  and associated functions
+// **********************************
+
 #pragma once
 
 #include"data.h"
@@ -5,7 +13,7 @@
 #include"sound_comm.h"
 #include"pointboard.h"
 
-// Checks if correct time interval has passed to drop block
+// Automatically moves bitrimino downwards at intervals
 void check_auto_drop() {
 
   if(millis() - lastDrop > dropTime && !grounded) {
@@ -15,6 +23,7 @@ void check_auto_drop() {
   }
 }
 
+// Check if the bitrimino has collided with anything
 void check_collision() {
   
   if(check_bottom_edge(currBitrimino) || check_debris_below(board, currBitrimino)) { // Reached bottom of board or hit debris pile
@@ -29,9 +38,11 @@ void check_collision() {
   }
 }
 
+// Define Game Over behaviour
 void game_over() {
 
   Serial.println("Game is over");
+
   play_game_over();
 
   board[0] = 0b0000000100000000;
@@ -48,6 +59,7 @@ void game_over() {
   loss = false;
 }
 
+// Remove a row from the gameboard
 void remove_row(int row) {
 
   play_row_clear();
@@ -61,6 +73,7 @@ void remove_row(int row) {
   board[0] = 0b0000000100000000;          // Add new empty row at top
 }
 
+// Check for full rows to be cleared
 void check_rows() {
 
   for(int i = 0; i <= 7; i++) {             // Loop through rows of board, starting at the bottom
@@ -78,7 +91,7 @@ void check_rows() {
   }
 }
 
-// Adds the current bitrimino to the debris pile if it is grounded and 
+// Adds the current bitrimino to the debris pile
 void attempt_add_to_debris() {
 
    if(grounded == true && millis() - groundTime > dropTime) {
@@ -90,6 +103,7 @@ void attempt_add_to_debris() {
    }
 }
 
+// Display the current gameboard and pointboard
 void display_board(unsigned int board[8]) {
   
   send_pattern(board[0], pointsPatterns[0], 1);

@@ -1,12 +1,16 @@
-// CS 241 Final Project: Bitris Game
-// Jenae Matson and Elliott Lewandowski
+// **********************************
+// bitris_main.ino
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// CS 241 Final Project: Bitris
+// **********************************
 
+
+#include"data.h"
+#include"bitrimino.h"
 #include"display_pattern.h"
 #include"buttons.h"
-#include"bitrimino.h"
-#include"data.h"
 #include"board.h"
-
 
 
 void setup() {

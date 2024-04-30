@@ -1,13 +1,22 @@
+// **********************************
+// sound_comm.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for communicating with 
+//  Arduino Nano for sound effects.
+// **********************************
+
 #pragma once
 
 #include "data.h"
 
-//Sound comms pins
+// Sound comms pins
 const int rowSoundPin = 6;
 const int dropSoundPin = 5;
 const int endSoundPin = 4;
 const int songSoundPin = 3;
 
+// Setup the sound pins (call from setup)
 void begin_sound_pins() {
 
   pinMode(rowSoundPin, OUTPUT);
@@ -19,6 +28,11 @@ void begin_sound_pins() {
   digitalWrite(endSoundPin, HIGH);
   digitalWrite(songSoundPin, HIGH);
 }
+
+
+//******************************
+//  Sound Effect Functions
+//******************************
 
 void play_row_clear() {
 

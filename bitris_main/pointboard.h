@@ -1,8 +1,17 @@
+// **********************************
+// pointboard.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for creating patterns
+//  for display on 7-segment LED
+//  pointboard.
+// **********************************
+
 #pragma once
 
 #include"data.h"
 
-// Symbol Lookup Table
+// Symbol Patterns for numbers 0-9
 const int symbols = 10;
 const unsigned int symbolTable[symbols] = {
 
@@ -18,16 +27,17 @@ const unsigned int symbolTable[symbols] = {
   0b0000000011100110,  //9
 };
 
+// Digit Patterns for digits 1-4
 const int digits = 4;
 const unsigned int digitTable[digits] = {
 
   0b1111000100000000, // 1st digit
   0b1111001000000000, // 2nd digit
   0b1111010000000000, // 3rd digit
-  0b1111100000000000 // 4th digit
+  0b1111100000000000  // 4th digit
 };
 
-// Make a symbol pattern of the form
+// Make a pattern of the form
 // 0b00004321ABCDEFGd
 // from a given digit and symbol
 unsigned int make_symbol_pattern(int digit, int symbol) {
@@ -39,6 +49,8 @@ unsigned int make_symbol_pattern(int digit, int symbol) {
   return digit_pattern | symbol_pattern;
 }
 
+// Update the array of points_patterns
+// based on current number of points.
 void update_points_patterns() {
 
   int dig1 = (points / 1000) % 10;
