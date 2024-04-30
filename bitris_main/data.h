@@ -1,3 +1,10 @@
+// **********************************
+// data.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for global game data
+// **********************************
+
 #pragma once
 
 bool loss = false; // True when game is over
@@ -8,7 +15,7 @@ const int rightButton = 9;
 const int upButton = 8;
 const int downButton = 7;
 
-//Shift register pins
+// Shift register pins
 const int dataPin = 11;
 const int shiftPin = 12;
 const int outputPin = 13;
@@ -20,7 +27,11 @@ struct Bitrimino {
   unsigned int pattern[2];
 };
 
-// Starting game state
+
+//******************************
+//    Starting Game State
+//******************************
+
 Bitrimino currBitrimino;
 
 // Empty Game board
@@ -35,7 +46,8 @@ unsigned int board[8] {
   0b0100000000000000,
   0b1000000000000000
 };
-// Starting points, set patterns to 0000
+
+// Start with 0 points, set patterns to 0000
 int points = 0;
 unsigned int pointsPatterns[4]{
   
@@ -45,13 +57,11 @@ unsigned int pointsPatterns[4]{
   0b0000100011111100  
 };
 
-
 bool grounded = false;             // True if the bitrimino is on the ground
-unsigned long groundTime = 0;      // Stores most recent time the current bitrimino touched the ground
+unsigned long groundTime = 0;      // Most recent time the current bitrimino touched the ground
 unsigned long slideDuration = 500; // Time after hitting the ground before the bitrimino is placed
 
-unsigned long lastDrop = millis(); // Stores last time an autodrop was performed
+unsigned long lastDrop = millis(); // Last time an autodrop was performed
 unsigned long dropTime = 1000;     // Time between autodrop intervals in millis
 
 bool startState = true;            // Game stalls until a button is pressed
-

@@ -1,4 +1,13 @@
+// **********************************
+// bitrimino.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for the Bitrimino struct
+//  and associated functions
+// **********************************
+
 #pragma once
+
 #include"data.h"
 #include"sound_comm.h"
 

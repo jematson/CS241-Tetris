@@ -1,3 +1,11 @@
+// **********************************
+// buttons.h
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// Header for the buttons and
+//  associated functions
+// **********************************
+
 #pragma once
 
 #include"data.h"
@@ -14,6 +22,7 @@ bool prevDown = downState;
 bool upState = false;
 bool prevUp = upState;
 
+// Setup button pins (call from setup)
 void begin_buttons(const int left_button, const int right_button, const int down_button, const int up_button) {
 
   pinMode(left_button, INPUT_PULLUP);
@@ -22,14 +31,15 @@ void begin_buttons(const int left_button, const int right_button, const int down
   pinMode(up_button, INPUT_PULLUP);
 }
 
-// Check button states and do stuff if pressed
+// Button checking functions
+// 
 void check_left_button() {
 
   leftState = !digitalRead(leftButton);
 
   if(leftState && leftState != prevLeft) {               // Check that the button is pressed down and changed state from our last check
 
-    currBitrimino = move_bitr_left(board, currBitrimino);
+    currBitrimino = move_bitr_left(board, currBitrimino); // Left button moves bitrimino to the left one block
     leftState = true;
     startState = false;
   }
@@ -44,7 +54,7 @@ void check_right_button() {
 
   if(rightState && rightState != prevRight) {
 
-    currBitrimino = move_bitr_right(board, currBitrimino);
+    currBitrimino = move_bitr_right(board, currBitrimino);  // Right button moves bitrimino to the right one block
     rightState = true;
     startState = false;
   }
@@ -59,7 +69,7 @@ void check_down_button() {
 
   if(downState && downState != prevDown && !grounded) {
 
-    currBitrimino = move_bitr_down(board, currBitrimino);
+    currBitrimino = move_bitr_down(board, currBitrimino); // Down button moves bitrimino down one block
     downState = true;
     startState = false;
   }
@@ -74,7 +84,7 @@ void check_up_button() {
 
   if(upState && upState != prevUp) {
 
-    currBitrimino = hard_drop(board, currBitrimino);
+    currBitrimino = hard_drop(board, currBitrimino);  // Up button performs a hard drop (moves bitrimino to bottom of board)
     check_rows();
     upState = true;
     startState = false;

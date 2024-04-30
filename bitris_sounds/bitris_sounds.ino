@@ -1,5 +1,16 @@
+// **********************************
+// bitris_sounds.ino
+// Elliot Lewandowski & Jenae Matson
+// last updated: 2024-4-30
+// CS 241 Final Project: Bitris
+//  Code to run Bitris sound effects
+//  on an Arduino Nano.
+// **********************************
 
+
+// Pin for playing sound
 const int soundPin =13;
+// Pins for receiving instructions
 const int rowSoundPin = 2;
 const int dropSoundPin = 3;
 const int endSoundPin = 4;
@@ -7,7 +18,8 @@ const int songSoundPin = 5;
 
 const int num_notes = 41;
 
-// Arrays of notes and durations taken from blog "Musings of a Fondue"
+// Arrays of frequencies and durations for Tetris theme song Korobeiniki
+// From the blog "Musings of a Fondue"
 // https://www.jk-quantized.com/blog/2013/11/22/tetris-theme-song-using-processing
 int noteDuration[num_notes] = {
 
@@ -16,7 +28,7 @@ int noteDuration[num_notes] = {
     203, 203, 609, 203, 406, 203, 203, 609, 203, 406, 
     203, 203, 406, 203, 203, 406, 406, 406, 406, 406, 406
 };
-int rawSequence[num_notes] = {
+int noteFrequency[num_notes] = {
 
     659, 494, 523, 587, 523, 494, 440, 440, 523, 
     659, 587, 523, 494, 523, 587, 659, 523, 
@@ -25,10 +37,11 @@ int rawSequence[num_notes] = {
     523, 587, 659, 523, 440, 440, 0
 };
 
-int digitalWriteUS = 4;
 
-// Play this note, in Hz, for this many milliseconds
-void playNote(int frequencyHz,int durationMs) {
+// Play the given note, in Hz, for the given duration, in milliseconds
+// Function from Dr. Lawlor
+int digitalWriteUS = 4;
+void playNote(int frequencyHz, int durationMs) {
 
   int cycleTimeUS=long(1000000)/frequencyHz;
   int delayTimeUS=cycleTimeUS/2-digitalWriteUS;
@@ -51,7 +64,7 @@ void playKorobeiniki() {
 
   for(int i = 0; i < num_notes ; i++) {
 
-    playNote(rawSequence[i], noteDuration[i]);
+    playNote(noteFrequency[i], noteDuration[i]);
   }
 
   delay(20);
@@ -81,6 +94,7 @@ void playGameOver() {
   playNote(800, 200);
   playNote(200, 200);
   playNote(70, 400);
+  // Delay before background music starts playing
   delay(1000);
 }
 
