@@ -1,6 +1,7 @@
-# **Bitris**
-## By Jenae Matson & Elliott Lewandowski
-## CS 241 Final Project
+**Bitris** 
+By Jenae Matson & Elliott Lewandowski 
+CS 241 Final Project
+-------------------------------------
 
 Bitris is a simple game similar to Tetris. The player is in control of a bitrimino (a game block made up of two pixels in various configurations). 
 The bitrimino automatically moves downwards on the screen, and the player can move it side to side and downwards using buttons. 
