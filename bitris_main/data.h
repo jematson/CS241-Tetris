@@ -43,12 +43,12 @@ unsigned int pointsPatterns[4]{
 };
 
 
-bool grounded = false; // Stores wether the bitrimino is on the ground or not
-unsigned long groundTime = 0; // Stores the time when the player touched the ground
-unsigned long slideDuration = 500; // Time player can slide after hitting the ground
+bool grounded = false;             // True if the bitrimino is on the ground
+unsigned long groundTime = 0;      // Stores most recent time the current bitrimino touched the ground
+unsigned long slideDuration = 500; // Time after hitting the ground before the bitrimino is placed
 
-unsigned long lastDrop = millis();
-unsigned long dropTime = 1000; // Time between autodrop intervals in millis
+unsigned long lastDrop = millis(); // Stores last time an autodrop was performed
+unsigned long dropTime = 1000;     // Time between autodrop intervals in millis
 
-bool startState = true; //Game stalls until a button is pressed
+bool startState = true;            // Game stalls until a button is pressed
 
