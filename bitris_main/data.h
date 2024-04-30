@@ -16,6 +16,7 @@ const int outputPin = 13;
 // Bitrimino struct
 // Stores bit patterns in array
 struct Bitrimino {
+
   unsigned int pattern[2];
 };
 
@@ -24,6 +25,7 @@ Bitrimino currBitrimino;
 
 // Empty Game board
 unsigned int board[8] {
+
   0b0000000100000000,
   0b0000001000000000,
   0b0000010000000000,
@@ -36,6 +38,7 @@ unsigned int board[8] {
 // Starting points, set patterns to 0000
 int points = 0;
 unsigned int pointsPatterns[4]{
+  
   0b0000000111111100,
   0b0000001011111100, 
   0b0000010011111100, 
