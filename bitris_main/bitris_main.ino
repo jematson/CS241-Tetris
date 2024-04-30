@@ -10,6 +10,7 @@
 
 
 void setup() {
+
   randomSeed(analogRead(A0));
   Serial.begin(57600);
   Serial.println("****************");
@@ -28,24 +29,26 @@ void setup() {
 }
 
 void loop() {
+
   check_left_button();
   check_right_button();
   check_down_button();
   check_up_button();
 
-  if(!startState)
-  {
+  if(!startState) {          // Run these functions if we are currently playing
+  
     update_points_patterns();
     attempt_add_to_debris();
     check_auto_drop();
 
     check_collision();
-    if(loss)
-    {
+    if(loss) {
+    
       game_over();
     }
   }
-  else{
+  else {                     // Run this function if we are not currently playing
+
     play_background_music();
   }
 
